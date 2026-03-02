@@ -193,10 +193,10 @@ export async function runLLMForSection({
   const host = window.location.hostname;
 
   const isLocalHost = host === "localhost" || host === "127.0.0.1";
-  const localTarget = {
-    url: "http://127.0.0.1:8000",
-    key: "yhW10OA9omHFZS9nrcKfNJhhXM6umfpCWpScxkWx"
-  };
+  // const localTarget = {
+  //   url: "http://127.0.0.1:8000",
+  //   key: "yhW10OA9omHFZS9nrcKfNJhhXM6umfpCWpScxkWx"
+  // };
   const prodTarget = {
     url: "https://exploreemebackend-1056855884926.us-central1.run.app",
     key: "ek8pfnyVmlvvjyKGf665rhHpioob2hrORjw0BxwH"
