@@ -22,7 +22,10 @@ import {
   removeCorrectionItem
 } from "./ui/section-4.js";
 import { generateOverallBenefit } from "./ui/section-5.js";
-import { renderHandwritingCorrectionDescriptions } from "./ui/section-6.js";
+import {
+  renderHandwritingCorrectionDescriptions,
+  promptAddHandwritingCorrection
+} from "./ui/section-6.js";
 import {
   addMistakeItem,
   removeMistakeItem,
@@ -44,6 +47,7 @@ globalThis.renderHandwritingCorrectionDescriptions = renderHandwritingCorrection
 globalThis.applyFormToReport = applyFormToReport;
 globalThis.generateOverallBenefit = generateOverallBenefit;
 globalThis.promptAddHandwritingMistake = promptAddHandwritingMistake;
+globalThis.promptAddHandwritingCorrection = promptAddHandwritingCorrection;
 
 globalThis.addCorrectionItem = addCorrectionItem;
 globalThis.removeCorrectionItem = removeCorrectionItem;
