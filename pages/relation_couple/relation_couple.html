@@ -4,6 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Couple Compatibility Analyzer (Preview & Download PDF)</title>
+  <!--
+    relation_couple.html
+
+    Purpose:
+    Hosts the full Couple Compatibility tool page.
+
+    Structure:
+    1) Left panel: form inputs for both partners (traits, notes, uploads, assessment fields)
+    2) Right panel: live report preview bound to left-panel data
+    3) Script boot: module hub (js/relation-couple.ui.js) wires listeners and sync logic
+
+    Integration:
+    - jsPDF/html2canvas are loaded from CDN for PDF/export paths.
+    - Runtime state sync is handled in modular JS files under ./js.
+  -->
   <!-- jsPDF & html2canvas CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -661,6 +676,6 @@
     </div>
   </div>
 
-  <script src="relation_couple.js"></script>
+  <script type="module" src="js/relation-couple.ui.js"></script>
 </body>
 </html>

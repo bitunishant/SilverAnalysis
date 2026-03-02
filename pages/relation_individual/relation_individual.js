@@ -1,3 +1,33 @@
+/**
+ * relation_individual.js
+ *
+ * Purpose:
+ * Runtime controller for the Individual Relationship Analyzer page.
+ *
+ * Section map:
+ * 1) Initialization:
+ *    - set current date in report metadata
+ *    - define trait interpretation dictionary
+ * 2) Input helpers:
+ *    - file upload previews
+ *    - trait selection extraction
+ * 3) Compatibility computation:
+ *    - derive compatible/incompatible partner type summaries
+ * 4) Preview synchronization:
+ *    - map left-panel inputs to right-panel report output
+ *    - render textarea content as bullet lists where needed
+ * 5) Utility actions:
+ *    - reset form to defaults
+ *    - PDF export
+ *    - HTML snapshot export
+ *    - preview-navigation helper
+ * 6) Event wiring + initial render
+ *
+ * Maintainer note:
+ * This file is currently monolithic. If extending significantly, split by feature
+ * modules (similar to relation_couple modular structure) to reduce merge conflicts.
+ */
+
  //Today's date
  const today = new Date();
  console.log(today);
@@ -49,7 +79,8 @@
    }
  };
 
- function handleImageUpload(input, type) {
+// ---------------- Section 2: Input Helpers ----------------
+function handleImageUpload(input, type) {
    const file = input.files[0];
    if (file) {
      const reader = new FileReader();
@@ -71,7 +102,7 @@ return Array.from(checkboxes).map(cb => ({ value: cb.value, textContent: cb.next
 }
 
 
-// updateCompatibility function 
+// ---------------- Section 3: Compatibility Summary ----------------
 function updateCompatibility() {
 const compatibleList = document.getElementById('r_compatible_list');
 const incompatibleList = document.getElementById('r_incompatible_list');
@@ -129,7 +160,8 @@ incompatibleList.innerHTML = incompatible.map(item => `<li>${item}</li>`).join('
 
 
 
- function applyToPreview() {
+// ---------------- Section 4: Preview Synchronization ----------------
+function applyToPreview() {
   // Update basic info
   document.getElementById('r_name').textContent = document.getElementById('userName').value;
   document.getElementById('r_age').textContent = document.getElementById('userAge').value;
@@ -207,8 +239,7 @@ incompatibleList.innerHTML = incompatible.map(item => `<li>${item}</li>`).join('
 
 
 
- // function updateTraitAnalyses() 
- function updateTraitAnalyses() {
+function updateTraitAnalyses() {
  const categories = [
  { containerId: 'emotionalSelect', listId: 'r_emotional_list', dataKey: 'emotional' },
  { containerId: 'communicationSelect', listId: 'r_communication_list', dataKey: 'communication' },
@@ -235,7 +266,8 @@ categories.forEach(category => {
 });
 }
 
- function resetForm() {
+// ---------------- Section 5: Utility Actions ----------------
+function resetForm() {
    // Reset form inputs
    document.getElementById('userName').value = 'Sarah Johnson';
    document.getElementById('userAge').value = '28';
@@ -392,7 +424,7 @@ function previewPdf() {
    alert('Preview is shown in the right panel. Review your report and click "Download PDF" when ready.');
  }
 
- // Event listeners
+// ---------------- Section 6: Event Wiring + Initial Render ----------------
  document.getElementById('applyBtn').addEventListener('click', applyToPreview);
  document.getElementById('downloadPdf').addEventListener('click', downloadPDF);
  document.getElementById('previewPdf').addEventListener('click', previewPdf);

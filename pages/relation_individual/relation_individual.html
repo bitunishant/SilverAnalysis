@@ -4,6 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Handwriting Relationship Analyzer (Preview & Download PDF)</title>
+  <!--
+    relation_individual.html
+
+    Purpose:
+    Hosts the full Individual Relationship Analyzer interface.
+
+    Layout:
+    1) Left panel: analyst inputs (identity, uploads, observed traits, narrative sections)
+    2) Right panel: generated live preview report bound to left-panel values
+    3) Script boot: relation_individual.js handles all runtime behavior and exports
+
+    Integration:
+    - jsPDF/html2canvas are loaded from CDN for PDF/export workflows.
+    - Runtime syncing and compatibility logic live in relation_individual.js.
+  -->
   <!-- jsPDF & html2canvas CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

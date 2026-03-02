@@ -1,3 +1,20 @@
+/*
+ * relation_couple.css
+ *
+ * Purpose:
+ * Visual system for the Couple Compatibility tool.
+ *
+ * What this stylesheet covers:
+ * 1) Two-panel app shell layout (form panel + live preview panel)
+ * 2) Form controls and trait-selection UI styling
+ * 3) Report-preview cards, section blocks, score badges, and footer
+ * 4) Shared utility styles for spacing, muted text, and responsive behavior
+ *
+ * Maintainer note:
+ * Keep structural layout rules near the top and section/component rules grouped
+ * to reduce merge conflicts when multiple developers work in parallel.
+ */
+
 * {
     margin: 0;
     padding: 0;
