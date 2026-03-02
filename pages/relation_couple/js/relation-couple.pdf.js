@@ -24,7 +24,7 @@ export async function downloadPDF() {
       scale: 2,
       useCORS: true,
       allowTaint: true,
-      backgroundColor: "#ffffff"
+      backgroundColor: "#ffffff",
     });
 
     const imgData = canvas.toDataURL("image/png");
@@ -46,8 +46,12 @@ export async function downloadPDF() {
       heightLeft -= pageHeight;
     }
 
-    const p1 = document.getElementById("person1Name")?.value.replace(/\s+/g, "_") || "Person1";
-    const p2 = document.getElementById("person2Name")?.value.replace(/\s+/g, "_") || "Person2";
+    const p1 =
+      document.getElementById("person1Name")?.value.replace(/\s+/g, "_") ||
+      "Person1";
+    const p2 =
+      document.getElementById("person2Name")?.value.replace(/\s+/g, "_") ||
+      "Person2";
     pdf.save(`Couple_Compatibility_${p1}_${p2}.pdf`);
   } catch (error) {
     console.error("PDF generation error:", error);

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Couple Compatibility Analyzer (Preview & Download PDF)</title>
-  <!--
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Couple Compatibility Analyzer (Preview & Download PDF)</title>
+    <!--
     relation_couple.html
 
     Purpose:
@@ -19,663 +19,1089 @@
     - jsPDF/html2canvas are loaded from CDN for PDF/export paths.
     - Runtime state sync is handled in modular JS files under ./js.
   -->
-  <!-- jsPDF & html2canvas CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <link rel="stylesheet" href="relation_couple.css">
-  <style>
-   
-  </style>
-</head>
-<body>
-  <div class="app">
-    <!-- LEFT PANEL: FORM CONTROLS -->
-    <div class="panel">
-      <h2>Couple Compatibility Analyzer</h2>
+    <!-- jsPDF & html2canvas CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="relation_couple.css" />
+    <style></style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- LEFT PANEL: FORM CONTROLS -->
+      <div class="panel">
+        <h2>Couple Compatibility Analyzer</h2>
 
-      <!-- Person 1 Section -->
-      <div class="person-section">
-        <h3>👤 Person 1</h3>
-        
-        <div class="form-section">
-          <h4>Basic Information</h4>
-          <label for="person1Name">Full Name</label>
-          <input id="person1Name" type="text" value="Sarah Johnson" />
+        <!-- Person 1 Section -->
+        <div class="person-section">
+          <h3>👤 Person 1</h3>
 
-          <label for="person1Age">Age</label>
-          <input id="person1Age" type="number" value="28" min="1" max="120" />
-        </div>
+          <div class="form-section">
+            <h4>Basic Information</h4>
+            <label for="person1Name">Full Name</label>
+            <input id="person1Name" type="text" value="Sarah Johnson" />
 
-        <div class="form-section">
-          <h4>Handwriting Analysis</h4>
-          <label>Upload Signature</label>
-          <input id="person1Signature" type="file" accept="image/*" />
-          <div id="person1SignaturePreview" class="muted">No signature uploaded</div>
+            <label for="person1Age">Age</label>
+            <input id="person1Age" type="number" value="28" min="1" max="120" />
+          </div>
 
-          <label style="margin-top:10px">Upload Handwriting</label>
-          <input id="person1Handwriting" type="file" accept="image/*" />
-          <div id="person1HandwritingPreview" class="muted">No handwriting uploaded</div>
-        </div>
-
-        <!-- Person 1 Traits -->
-        <div class="form-section">
-          <h4>Emotional Handling</h4>
-          <div class="trait-checkbox-container" id="person1EmotionalSelect">
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-emotional-1" value="emotional-1">
-              <label for="p1-emotional-1">Circular and Big dot over "i" or "j" - Emotional, high mood swings</label>
+          <div class="form-section">
+            <h4>Handwriting Analysis</h4>
+            <label>Upload Signature</label>
+            <input id="person1Signature" type="file" accept="image/*" />
+            <div id="person1SignaturePreview" class="muted">
+              No signature uploaded
             </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-emotional-2" value="emotional-2">
-              <label for="p1-emotional-2">Mixed circular and small dots - Balanced emotional expression</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-emotional-3" value="emotional-3">
-              <label for="p1-emotional-3">Small dots over "i" or "j" - Practical, handles emotions well</label>
+
+            <label style="margin-top: 10px">Upload Handwriting</label>
+            <input id="person1Handwriting" type="file" accept="image/*" />
+            <div id="person1HandwritingPreview" class="muted">
+              No handwriting uploaded
             </div>
           </div>
-          <textarea id="person1EmotionalNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
-        </div>
 
-        <div class="form-section">
-          <h4>Communication Style</h4>
-          <div class="trait-checkbox-container" id="person1CommunicationSelect">
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-comm-1" value="comm-1">
-              <label for="p1-comm-1">Simple and closed "o" or "a" - Extrovert, expressive</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-comm-2" value="comm-2">
-              <label for="p1-comm-2">Big handwriting - Confident and expressive</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-comm-3" value="comm-3">
-              <label for="p1-comm-3">Mixed "o" or "a" - Adaptable communication</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-comm-4" value="comm-4">
-              <label for="p1-comm-4">Small cut "o" or "a" - Introvert, keeps things inside</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-comm-5" value="comm-5">
-              <label for="p1-comm-5">Small handwriting - Shares less, introvert</label>
-            </div>
-          </div>
-          <textarea id="person1CommunicationNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
-        </div>
-
-        <div class="form-section">
-          <h4>Conflict Resolution</h4>
-          <div class="trait-checkbox-container" id="person1ConflictSelect">
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-conflict-1" value="conflict-1">
-              <label for="p1-conflict-1">Simple small letter "p" - Healthy conflict handling</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-conflict-2" value="conflict-2">
-              <label for="p1-conflict-2">Rounded handwriting - Peaceful approach</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-conflict-3" value="conflict-3">
-              <label for="p1-conflict-3">Pointed first letter in signature - Gets angry easily</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-conflict-4" value="conflict-4">
-              <label for="p1-conflict-4">Upper fluff of "e" - Open to feedback</label>
-            </div>
-            <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-conflict-5" value="conflict-5">
-                <label for="p1-conflict-5">Pugilistic "p" - Relationship conflicts</label>
+          <!-- Person 1 Traits -->
+          <div class="form-section">
+            <h4>Emotional Handling</h4>
+            <div class="trait-checkbox-container" id="person1EmotionalSelect">
+              <div class="trait-checkbox-item">
+                <input
+                  type="checkbox"
+                  id="p1-emotional-1"
+                  value="emotional-1"
+                />
+                <label for="p1-emotional-1"
+                  >Circular and Big dot over "i" or "j" - Emotional, high mood
+                  swings</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-conflict-6" value="conflict-6">
-                <label for="p1-conflict-6">Pointed handwriting - Aggressive tendencies</label>
+                <input
+                  type="checkbox"
+                  id="p1-emotional-2"
+                  value="emotional-2"
+                />
+                <label for="p1-emotional-2"
+                  >Mixed circular and small dots - Balanced emotional
+                  expression</label
+                >
               </div>
+              <div class="trait-checkbox-item">
+                <input
+                  type="checkbox"
+                  id="p1-emotional-3"
+                  value="emotional-3"
+                />
+                <label for="p1-emotional-3"
+                  >Small dots over "i" or "j" - Practical, handles emotions
+                  well</label
+                >
+              </div>
+            </div>
+            <textarea
+              id="person1EmotionalNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
           </div>
-          <textarea id="person1ConflictNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
-        </div>
 
-        <div class="form-section">
-          <h4>Intimacy Needs</h4>
-          <div class="trait-checkbox-container" id="person1IntimacySelect">
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-intimacy-1" value="intimacy-1">
-              <label for="p1-intimacy-1">Elongated "g" or "y" - High intimacy needs</label>
+          <div class="form-section">
+            <h4>Communication Style</h4>
+            <div
+              class="trait-checkbox-container"
+              id="person1CommunicationSelect"
+            >
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-comm-1" value="comm-1" />
+                <label for="p1-comm-1"
+                  >Simple and closed "o" or "a" - Extrovert, expressive</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-comm-2" value="comm-2" />
+                <label for="p1-comm-2"
+                  >Big handwriting - Confident and expressive</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-comm-3" value="comm-3" />
+                <label for="p1-comm-3"
+                  >Mixed "o" or "a" - Adaptable communication</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-comm-4" value="comm-4" />
+                <label for="p1-comm-4"
+                  >Small cut "o" or "a" - Introvert, keeps things inside</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-comm-5" value="comm-5" />
+                <label for="p1-comm-5"
+                  >Small handwriting - Shares less, introvert</label
+                >
+              </div>
             </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-intimacy-2" value="intimacy-2">
-              <label for="p1-intimacy-2">Consistent lower loops - Balanced intimacy</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p1-intimacy-3" value="intimacy-3">
-              <label for="p1-intimacy-3">Small/open "g" or "y" - Lower intimacy needs</label>
-            </div>
+            <textarea
+              id="person1CommunicationNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
           </div>
-          <textarea id="person1IntimacyNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
-        </div>
-        <div class="form-section">
+
+          <div class="form-section">
+            <h4>Conflict Resolution</h4>
+            <div class="trait-checkbox-container" id="person1ConflictSelect">
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-conflict-1" value="conflict-1" />
+                <label for="p1-conflict-1"
+                  >Simple small letter "p" - Healthy conflict handling</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-conflict-2" value="conflict-2" />
+                <label for="p1-conflict-2"
+                  >Rounded handwriting - Peaceful approach</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-conflict-3" value="conflict-3" />
+                <label for="p1-conflict-3"
+                  >Pointed first letter in signature - Gets angry easily</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-conflict-4" value="conflict-4" />
+                <label for="p1-conflict-4"
+                  >Upper fluff of "e" - Open to feedback</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-conflict-5" value="conflict-5" />
+                <label for="p1-conflict-5"
+                  >Pugilistic "p" - Relationship conflicts</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-conflict-6" value="conflict-6" />
+                <label for="p1-conflict-6"
+                  >Pointed handwriting - Aggressive tendencies</label
+                >
+              </div>
+            </div>
+            <textarea
+              id="person1ConflictNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
+          </div>
+
+          <div class="form-section">
+            <h4>Intimacy Needs</h4>
+            <div class="trait-checkbox-container" id="person1IntimacySelect">
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-intimacy-1" value="intimacy-1" />
+                <label for="p1-intimacy-1"
+                  >Elongated "g" or "y" - High intimacy needs</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-intimacy-2" value="intimacy-2" />
+                <label for="p1-intimacy-2"
+                  >Consistent lower loops - Balanced intimacy</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p1-intimacy-3" value="intimacy-3" />
+                <label for="p1-intimacy-3"
+                  >Small/open "g" or "y" - Lower intimacy needs</label
+                >
+              </div>
+            </div>
+            <textarea
+              id="person1IntimacyNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
+          </div>
+          <div class="form-section">
             <h4>Family Dynamics</h4>
             <div class="trait-checkbox-container" id="person1FamilySelect">
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-family-1" value="family-1">
-                <label for="p1-family-1">Only surname in signature - Strong family identity</label>
+                <input type="checkbox" id="p1-family-1" value="family-1" />
+                <label for="p1-family-1"
+                  >Only surname in signature - Strong family identity</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-family-2" value="family-2">
-                <label for="p1-family-2">Surname bigger than name - Family dominates decisions</label>
+                <input type="checkbox" id="p1-family-2" value="family-2" />
+                <label for="p1-family-2"
+                  >Surname bigger than name - Family dominates decisions</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-family-3" value="family-3">
-                <label for="p1-family-3">Surname before name - Family-first mentality</label>
+                <input type="checkbox" id="p1-family-3" value="family-3" />
+                <label for="p1-family-3"
+                  >Surname before name - Family-first mentality</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-family-4" value="family-4">
-                <label for="p1-family-4">Balanced name and surname - Harmony</label>
+                <input type="checkbox" id="p1-family-4" value="family-4" />
+                <label for="p1-family-4"
+                  >Balanced name and surname - Harmony</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-family-5" value="family-5">
-                <label for="p1-family-5">Only name in signature - Independent identity</label>
+                <input type="checkbox" id="p1-family-5" value="family-5" />
+                <label for="p1-family-5"
+                  >Only name in signature - Independent identity</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-family-6" value="family-6">
-                <label for="p1-family-6">Name clashing surname - Family-personal conflict</label>
+                <input type="checkbox" id="p1-family-6" value="family-6" />
+                <label for="p1-family-6"
+                  >Name clashing surname - Family-personal conflict</label
+                >
               </div>
             </div>
-            <textarea id="person1FamilyNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
+            <textarea
+              id="person1FamilyNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
           </div>
 
           <div class="form-section">
             <h4>Financial Handling</h4>
             <div class="trait-checkbox-container" id="person1FinancialSelect">
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-financial-1" value="financial-1">
-                <label for="p1-financial-1">Open ended "j" - Impulsive spender</label>
+                <input
+                  type="checkbox"
+                  id="p1-financial-1"
+                  value="financial-1"
+                />
+                <label for="p1-financial-1"
+                  >Open ended "j" - Impulsive spender</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-financial-2" value="financial-2">
-                <label for="p1-financial-2">Mixed variations - Balanced approach</label>
+                <input
+                  type="checkbox"
+                  id="p1-financial-2"
+                  value="financial-2"
+                />
+                <label for="p1-financial-2"
+                  >Mixed variations - Balanced approach</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p1-financial-3" value="financial-3">
+                <input
+                  type="checkbox"
+                  id="p1-financial-3"
+                  value="financial-3"
+                />
                 <label for="p1-financial-3">Closed "j" - Good at saving</label>
               </div>
             </div>
-            <textarea id="person1FinancialNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
+            <textarea
+              id="person1FinancialNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
           </div>
-       
-
-
-
-      </div>
-
-      <!-- Person 2 Section -->
-      <div class="person-section">
-        <h3>👤 Person 2</h3>
-        
-        <div class="form-section">
-          <h4>Basic Information</h4>
-          <label for="person2Name">Full Name</label>
-          <input id="person2Name" type="text" value="Michael Chen" />
-
-          <label for="person2Age">Age</label>
-          <input id="person2Age" type="number" value="30" min="1" max="120" />
         </div>
 
-        <div class="form-section">
-          <h4>Handwriting Analysis</h4>
-          <label>Upload Signature</label>
-          <input id="person2Signature" type="file" accept="image/*" />
-          <div id="person2SignaturePreview" class="muted">No signature uploaded</div>
+        <!-- Person 2 Section -->
+        <div class="person-section">
+          <h3>👤 Person 2</h3>
 
-          <label style="margin-top:10px">Upload Handwriting</label>
-          <input id="person2Handwriting" type="file" accept="image/*" />
-          <div id="person2HandwritingPreview" class="muted">No handwriting uploaded</div>
-        </div>
+          <div class="form-section">
+            <h4>Basic Information</h4>
+            <label for="person2Name">Full Name</label>
+            <input id="person2Name" type="text" value="Michael Chen" />
 
-        <!-- Person 2 Traits (same structure as Person 1) -->
-        <div class="form-section">
-          <h4>Emotional Handling</h4>
-          <div class="trait-checkbox-container" id="person2EmotionalSelect">
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-emotional-1" value="emotional-1">
-              <label for="p2-emotional-1">Circular and Big dot over "i" or "j" - Emotional, high mood swings</label>
+            <label for="person2Age">Age</label>
+            <input id="person2Age" type="number" value="30" min="1" max="120" />
+          </div>
+
+          <div class="form-section">
+            <h4>Handwriting Analysis</h4>
+            <label>Upload Signature</label>
+            <input id="person2Signature" type="file" accept="image/*" />
+            <div id="person2SignaturePreview" class="muted">
+              No signature uploaded
             </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-emotional-2" value="emotional-2">
-              <label for="p2-emotional-2">Mixed circular and small dots - Balanced emotional expression</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-emotional-3" value="emotional-3">
-              <label for="p2-emotional-3">Small dots over "i" or "j" - Practical, handles emotions well</label>
+
+            <label style="margin-top: 10px">Upload Handwriting</label>
+            <input id="person2Handwriting" type="file" accept="image/*" />
+            <div id="person2HandwritingPreview" class="muted">
+              No handwriting uploaded
             </div>
           </div>
-          <textarea id="person2EmotionalNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
-        </div>
 
-        <div class="form-section">
-          <h4>Communication Style</h4>
-          <div class="trait-checkbox-container" id="person2CommunicationSelect">
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-comm-1" value="comm-1">
-              <label for="p2-comm-1">Simple and closed "o" or "a" - Extrovert, expressive</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-comm-2" value="comm-2">
-              <label for="p2-comm-2">Big handwriting - Confident and expressive</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-comm-3" value="comm-3">
-              <label for="p2-comm-3">Mixed "o" or "a" - Adaptable communication</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-comm-4" value="comm-4">
-              <label for="p2-comm-4">Small cut "o" or "a" - Introvert, keeps things inside</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-comm-5" value="comm-5">
-              <label for="p2-comm-5">Small handwriting - Shares less, introvert</label>
-            </div>
-          </div>
-          <textarea id="person2CommunicationNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
-        </div>
-
-        <div class="form-section">
-          <h4>Conflict Resolution</h4>
-          <div class="trait-checkbox-container" id="person2ConflictSelect">
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-conflict-1" value="conflict-1">
-              <label for="p2-conflict-1">Simple small letter "p" - Healthy conflict handling</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-conflict-2" value="conflict-2">
-              <label for="p2-conflict-2">Rounded handwriting - Peaceful approach</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-conflict-3" value="conflict-3">
-              <label for="p2-conflict-3">Pointed first letter in signature - Gets angry easily</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-conflict-4" value="conflict-4">
-              <label for="p2-conflict-4">Upper fluff of "e" - Open to feedback</label>
-            </div>
-            <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-conflict-5" value="conflict-5">
-                <label for="p2-conflict-5">Pugilistic "p" - Relationship conflicts</label>
+          <!-- Person 2 Traits (same structure as Person 1) -->
+          <div class="form-section">
+            <h4>Emotional Handling</h4>
+            <div class="trait-checkbox-container" id="person2EmotionalSelect">
+              <div class="trait-checkbox-item">
+                <input
+                  type="checkbox"
+                  id="p2-emotional-1"
+                  value="emotional-1"
+                />
+                <label for="p2-emotional-1"
+                  >Circular and Big dot over "i" or "j" - Emotional, high mood
+                  swings</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-conflict-6" value="conflict-6">
-                <label for="p2-conflict-6">Pointed handwriting - Aggressive tendencies</label>
+                <input
+                  type="checkbox"
+                  id="p2-emotional-2"
+                  value="emotional-2"
+                />
+                <label for="p2-emotional-2"
+                  >Mixed circular and small dots - Balanced emotional
+                  expression</label
+                >
               </div>
+              <div class="trait-checkbox-item">
+                <input
+                  type="checkbox"
+                  id="p2-emotional-3"
+                  value="emotional-3"
+                />
+                <label for="p2-emotional-3"
+                  >Small dots over "i" or "j" - Practical, handles emotions
+                  well</label
+                >
+              </div>
+            </div>
+            <textarea
+              id="person2EmotionalNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
           </div>
-          <textarea id="person2ConflictNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
-        </div>
 
-        <div class="form-section">
-          <h4>Intimacy Needs</h4>
-          <div class="trait-checkbox-container" id="person2IntimacySelect">
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-intimacy-1" value="intimacy-1">
-              <label for="p2-intimacy-1">Elongated "g" or "y" - High intimacy needs</label>
+          <div class="form-section">
+            <h4>Communication Style</h4>
+            <div
+              class="trait-checkbox-container"
+              id="person2CommunicationSelect"
+            >
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-comm-1" value="comm-1" />
+                <label for="p2-comm-1"
+                  >Simple and closed "o" or "a" - Extrovert, expressive</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-comm-2" value="comm-2" />
+                <label for="p2-comm-2"
+                  >Big handwriting - Confident and expressive</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-comm-3" value="comm-3" />
+                <label for="p2-comm-3"
+                  >Mixed "o" or "a" - Adaptable communication</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-comm-4" value="comm-4" />
+                <label for="p2-comm-4"
+                  >Small cut "o" or "a" - Introvert, keeps things inside</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-comm-5" value="comm-5" />
+                <label for="p2-comm-5"
+                  >Small handwriting - Shares less, introvert</label
+                >
+              </div>
             </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-intimacy-2" value="intimacy-2">
-              <label for="p2-intimacy-2">Consistent lower loops - Balanced intimacy</label>
-            </div>
-            <div class="trait-checkbox-item">
-              <input type="checkbox" id="p2-intimacy-3" value="intimacy-3">
-              <label for="p2-intimacy-3">Small/open "g" or "y" - Lower intimacy needs</label>
-            </div>
+            <textarea
+              id="person2CommunicationNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
           </div>
-          <textarea id="person2IntimacyNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
-        </div>
 
-        <div class="form-section">
+          <div class="form-section">
+            <h4>Conflict Resolution</h4>
+            <div class="trait-checkbox-container" id="person2ConflictSelect">
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-conflict-1" value="conflict-1" />
+                <label for="p2-conflict-1"
+                  >Simple small letter "p" - Healthy conflict handling</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-conflict-2" value="conflict-2" />
+                <label for="p2-conflict-2"
+                  >Rounded handwriting - Peaceful approach</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-conflict-3" value="conflict-3" />
+                <label for="p2-conflict-3"
+                  >Pointed first letter in signature - Gets angry easily</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-conflict-4" value="conflict-4" />
+                <label for="p2-conflict-4"
+                  >Upper fluff of "e" - Open to feedback</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-conflict-5" value="conflict-5" />
+                <label for="p2-conflict-5"
+                  >Pugilistic "p" - Relationship conflicts</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-conflict-6" value="conflict-6" />
+                <label for="p2-conflict-6"
+                  >Pointed handwriting - Aggressive tendencies</label
+                >
+              </div>
+            </div>
+            <textarea
+              id="person2ConflictNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
+          </div>
+
+          <div class="form-section">
+            <h4>Intimacy Needs</h4>
+            <div class="trait-checkbox-container" id="person2IntimacySelect">
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-intimacy-1" value="intimacy-1" />
+                <label for="p2-intimacy-1"
+                  >Elongated "g" or "y" - High intimacy needs</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-intimacy-2" value="intimacy-2" />
+                <label for="p2-intimacy-2"
+                  >Consistent lower loops - Balanced intimacy</label
+                >
+              </div>
+              <div class="trait-checkbox-item">
+                <input type="checkbox" id="p2-intimacy-3" value="intimacy-3" />
+                <label for="p2-intimacy-3"
+                  >Small/open "g" or "y" - Lower intimacy needs</label
+                >
+              </div>
+            </div>
+            <textarea
+              id="person2IntimacyNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
+          </div>
+
+          <div class="form-section">
             <h4>Family Dynamics</h4>
             <div class="trait-checkbox-container" id="person2FamilySelect">
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-family-1" value="family-1">
-                <label for="p2-family-1">Only surname in signature - Strong family identity</label>
+                <input type="checkbox" id="p2-family-1" value="family-1" />
+                <label for="p2-family-1"
+                  >Only surname in signature - Strong family identity</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-family-2" value="family-2">
-                <label for="p2-family-2">Surname bigger than name - Family dominates decisions</label>
+                <input type="checkbox" id="p2-family-2" value="family-2" />
+                <label for="p2-family-2"
+                  >Surname bigger than name - Family dominates decisions</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-family-3" value="family-3">
-                <label for="p2-family-3">Surname before name - Family-first mentality</label>
+                <input type="checkbox" id="p2-family-3" value="family-3" />
+                <label for="p2-family-3"
+                  >Surname before name - Family-first mentality</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-family-4" value="family-4">
-                <label for="p2-family-4">Balanced name and surname - Harmony</label>
+                <input type="checkbox" id="p2-family-4" value="family-4" />
+                <label for="p2-family-4"
+                  >Balanced name and surname - Harmony</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-family-5" value="family-5">
-                <label for="p2-family-5">Only name in signature - Independent identity</label>
+                <input type="checkbox" id="p2-family-5" value="family-5" />
+                <label for="p2-family-5"
+                  >Only name in signature - Independent identity</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-family-6" value="family-6">
-                <label for="p2-family-6">Name clashing surname - Family-personal conflict</label>
+                <input type="checkbox" id="p2-family-6" value="family-6" />
+                <label for="p2-family-6"
+                  >Name clashing surname - Family-personal conflict</label
+                >
               </div>
             </div>
-            <textarea id="person2FamilyNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
+            <textarea
+              id="person2FamilyNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
           </div>
 
           <div class="form-section">
             <h4>Financial Handling</h4>
             <div class="trait-checkbox-container" id="person2FinancialSelect">
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-financial-1" value="financial-1">
-                <label for="p2-financial-1">Open ended "j" - Impulsive spender</label>
+                <input
+                  type="checkbox"
+                  id="p2-financial-1"
+                  value="financial-1"
+                />
+                <label for="p2-financial-1"
+                  >Open ended "j" - Impulsive spender</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-financial-2" value="financial-2">
-                <label for="p2-financial-2">Mixed variations - Balanced approach</label>
+                <input
+                  type="checkbox"
+                  id="p2-financial-2"
+                  value="financial-2"
+                />
+                <label for="p2-financial-2"
+                  >Mixed variations - Balanced approach</label
+                >
               </div>
               <div class="trait-checkbox-item">
-                <input type="checkbox" id="p2-financial-3" value="financial-3">
+                <input
+                  type="checkbox"
+                  id="p2-financial-3"
+                  value="financial-3"
+                />
                 <label for="p2-financial-3">Closed "j" - Good at saving</label>
               </div>
             </div>
-            <textarea id="person2FinancialNotes" placeholder="Analysis notes..." style="height: 60px;"></textarea>
+            <textarea
+              id="person2FinancialNotes"
+              placeholder="Analysis notes..."
+              style="height: 60px"
+            ></textarea>
           </div>
+        </div>
 
-      </div>
-
-      <!-- Report Details -->
-      <div class="form-section">
-        <h4>Report Information</h4>
-        <label for="reportDate">Analysis Date</label>
-        <!-- <input id="reportDate" type="text" value="September 15, 2025" /> -->
-        <input id="reportDate" type="text" readonly /> 
-         <!-- <label for="reportId">Report ID</label>
+        <!-- Report Details -->
+        <div class="form-section">
+          <h4>Report Information</h4>
+          <label for="reportDate">Analysis Date</label>
+          <!-- <input id="reportDate" type="text" value="September 15, 2025" /> -->
+          <input id="reportDate" type="text" readonly />
+          <!-- <label for="reportId">Report ID</label>
         <input id="reportId" type="text" value="COUPLE-2025-001" /> -->
-        
+        </div>
+
+        <!-- Assessment Fields -->
+        <div class="form-section">
+          <h4>Overall Assessment</h4>
+          <label>Relationship Strengths</label>
+          <textarea id="relationshipStrengths" style="height: 80px">
+Both partners show strong emotional intelligence and complementary communication styles, creating a solid foundation for understanding and growth.</textarea
+          >
+
+          <label style="margin-top: 10px">Potential Challenges</label>
+          <textarea id="relationshipChallenges" style="height: 80px">
+Different conflict resolution approaches may require patience and compromise to find common ground during disagreements.</textarea
+          >
+
+          <label style="margin-top: 10px">Recommendations</label>
+          <textarea id="relationshipRecommendations" style="height: 100px">
+Focus on leveraging your complementary strengths while working on understanding and respecting each other's different approaches to conflict resolution. Regular check-ins about emotional needs will strengthen your bond.</textarea
+          >
+        </div>
+
+        <!-- Controls -->
+        <div class="controls-row">
+          <button id="applyBtn" class="btn btn-primary">
+            Apply to Preview
+          </button>
+          <button id="downloadHtml" class="btn btn-primary">
+            Export as HTML
+          </button>
+          <button id="resetBtn" class="btn btn-ghost">Reset</button>
+        </div>
       </div>
 
-      <!-- Assessment Fields -->
-      <div class="form-section">
-        <h4>Overall Assessment</h4>
-        <label>Relationship Strengths</label>
-        <textarea id="relationshipStrengths" style="height: 80px;">Both partners show strong emotional intelligence and complementary communication styles, creating a solid foundation for understanding and growth.</textarea>
-        
-        <label style="margin-top:10px">Potential Challenges</label>
-        <textarea id="relationshipChallenges" style="height: 80px;">Different conflict resolution approaches may require patience and compromise to find common ground during disagreements.</textarea>
-        
-        <label style="margin-top:10px">Recommendations</label>
-        <textarea id="relationshipRecommendations" style="height: 100px;">Focus on leveraging your complementary strengths while working on understanding and respecting each other's different approaches to conflict resolution. Regular check-ins about emotional needs will strengthen your bond.</textarea>
-      </div>
+      <!-- RIGHT PANEL: Preview -->
+      <div class="panel preview-area">
+        <div id="reportRoot" class="report-wrap">
+          <!-- Header -->
+          <div class="header">
+            <h1>Couple Compatibility Analysis Report</h1>
+            <p>Professional Couple Relationship Assessment</p>
+          </div>
 
-      <!-- Controls -->
-      <div class="controls-row">
-        <button id="applyBtn" class="btn btn-primary">Apply to Preview</button>
-        <button id="downloadHtml" class="btn btn-primary">Export as HTML</button>
-        <button id="resetBtn" class="btn btn-ghost">Reset</button>
+          <!-- Section 1: Couple Information -->
+          <div class="section">
+            <h2 class="section-title">1. Couple Information</h2>
+
+            <div class="couple-info">
+              <!-- Person 1 Info -->
+              <div class="person-info">
+                <h2 id="r_person1_name">Person 1: Sarah Johnson</h2>
+                <div class="info-grid">
+                  <div class="info-item">
+                    <span class="info-label">Age:</span>
+                    <span id="r_person1_age">28</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Analysis Date:</span>
+                    <span id="r_date">September 15, 2025</span>
+                  </div>
+                </div>
+
+                <h4>Signature Analysis</h4>
+                <div id="r_person1_signatureBox" class="image-box">
+                  <img
+                    id="r_person1_signature_img"
+                    class="report-img"
+                    src=""
+                    alt="Signature"
+                    style="display: none"
+                  />
+                  <div id="r_person1_signature_placeholder">
+                    No signature uploaded
+                  </div>
+                </div>
+
+                <h4>Handwriting Analysis</h4>
+                <div id="r_person1_handwritingBox" class="image-box">
+                  <img
+                    id="r_person1_handwriting_img"
+                    class="report-img"
+                    src=""
+                    alt="Handwriting"
+                    style="display: none"
+                  />
+                  <div id="r_person1_handwriting_placeholder">
+                    No handwriting uploaded
+                  </div>
+                </div>
+              </div>
+
+              <!-- Person 2 Info -->
+              <div class="person-info">
+                <h2 id="r_person2_name">Person 2: Michael Chen</h2>
+                <div class="info-grid">
+                  <div class="info-item">
+                    <span class="info-label">Age:</span>
+                    <span id="r_person2_age">30</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Report ID:</span>
+                    <span id="r_id">COUPLE-2025-001</span>
+                  </div>
+                </div>
+
+                <h4>Signature Analysis</h4>
+                <div id="r_person2_signatureBox" class="image-box">
+                  <img
+                    id="r_person2_signature_img"
+                    class="report-img"
+                    src=""
+                    alt="Signature"
+                    style="display: none"
+                  />
+                  <div id="r_person2_signature_placeholder">
+                    No signature uploaded
+                  </div>
+                </div>
+
+                <h4>Handwriting Analysis</h4>
+                <div id="r_person2_handwritingBox" class="image-box">
+                  <img
+                    id="r_person2_handwriting_img"
+                    class="report-img"
+                    src=""
+                    alt="Handwriting"
+                    style="display: none"
+                  />
+                  <div id="r_person2_handwriting_placeholder">
+                    No handwriting uploaded
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Individual Trait Analysis Comparison -->
+          <div class="section">
+            <h2 class="section-title">
+              2. Individual Trait Analysis & Compatibility
+            </h2>
+
+            <!-- Emotional Handling Comparison -->
+            <div class="trait-comparison">
+              <h4>Emotional Handling Compatibility</h4>
+              <div class="person-traits">
+                <div class="person-trait">
+                  <h5 id="r_person1_emotional_title">
+                    Sarah's Emotional Style
+                  </h5>
+                  <ul id="r_person1_emotional_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person1_emotional_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+                <div class="person-trait">
+                  <h5 id="r_person2_emotional_title">
+                    Michael's Emotional Style
+                  </h5>
+                  <ul id="r_person2_emotional_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person2_emotional_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+              </div>
+              <div
+                id="r_emotional_compatibility"
+                class="compatibility-score score-medium"
+              >
+                Compatibility Score: 75% - Good Match
+              </div>
+            </div>
+
+            <!-- Communication Style Comparison -->
+            <div class="trait-comparison">
+              <h4>Communication Style Compatibility</h4>
+              <div class="person-traits">
+                <div class="person-trait">
+                  <h5 id="r_person1_communication_title">
+                    Sarah's Communication
+                  </h5>
+                  <ul id="r_person1_communication_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person1_communication_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+                <div class="person-trait">
+                  <h5 id="r_person2_communication_title">
+                    Michael's Communication
+                  </h5>
+                  <ul id="r_person2_communication_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person2_communication_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+              </div>
+              <div
+                id="r_communication_compatibility"
+                class="compatibility-score score-high"
+              >
+                Compatibility Score: 85% - Excellent Match
+              </div>
+            </div>
+
+            <!-- Conflict Resolution Comparison -->
+            <div class="trait-comparison">
+              <h4>Conflict Resolution Compatibility</h4>
+              <div class="person-traits">
+                <div class="person-trait">
+                  <h5 id="r_person1_conflict_title">Sarah's Conflict Style</h5>
+                  <ul id="r_person1_conflict_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person1_conflict_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+                <div class="person-trait">
+                  <h5 id="r_person2_conflict_title">
+                    Michael's Conflict Style
+                  </h5>
+                  <ul id="r_person2_conflict_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person2_conflict_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+              </div>
+              <div
+                id="r_conflict_compatibility"
+                class="compatibility-score score-medium"
+              >
+                Compatibility Score: 70% - Good Match
+              </div>
+            </div>
+
+            <!-- Intimacy Needs Comparison -->
+            <div class="trait-comparison">
+              <h4>Intimacy Needs Compatibility</h4>
+              <div class="person-traits">
+                <div class="person-trait">
+                  <h5 id="r_person1_intimacy_title">Sarah's Intimacy Needs</h5>
+                  <ul id="r_person1_intimacy_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person1_intimacy_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+                <div class="person-trait">
+                  <h5 id="r_person2_intimacy_title">
+                    Michael's Intimacy Needs
+                  </h5>
+                  <ul id="r_person2_intimacy_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person2_intimacy_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+              </div>
+              <div
+                id="r_intimacy_compatibility"
+                class="compatibility-score score-high"
+              >
+                Compatibility Score: 90% - Excellent Match
+              </div>
+            </div>
+
+            <!-- Family Dynamics Comparison -->
+            <div class="trait-comparison">
+              <h4>Family Dynamics Compatibility</h4>
+              <div class="person-traits">
+                <div class="person-trait">
+                  <h5 id="r_person1_family_title">Sarah's Family Dynamics</h5>
+                  <ul id="r_person1_family_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person1_family_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+                <div class="person-trait">
+                  <h5 id="r_person2_family_title">Michael's Family Dynamics</h5>
+                  <ul id="r_person2_family_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person2_family_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+              </div>
+              <div
+                id="r_family_compatibility"
+                class="compatibility-score score-high"
+              >
+                Compatibility Score: 90% - Excellent Match
+              </div>
+            </div>
+
+            <!-- Financial Handling Comparison -->
+            <div class="trait-comparison">
+              <h4>Financial Handling Compatibility</h4>
+              <div class="person-traits">
+                <div class="person-trait">
+                  <h5 id="r_person1_financial_title">
+                    Sarah's Financial Handling
+                  </h5>
+                  <ul id="r_person1_financial_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person1_financial_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+                <div class="person-trait">
+                  <h5 id="r_person2_financial_title">
+                    Michael's Financial Handling
+                  </h5>
+                  <ul id="r_person2_financial_list">
+                    <li>Select traits to see analysis</li>
+                  </ul>
+                  <p
+                    id="r_person2_financial_notes"
+                    style="
+                      font-size: 0.8em;
+                      color: #666;
+                      margin-top: 8px;
+                      font-style: italic;
+                    "
+                  >
+                    No notes provided
+                  </p>
+                </div>
+              </div>
+              <div
+                id="r_financial_compatibility"
+                class="compatibility-score score-high"
+              >
+                Compatibility Score: 90% - Excellent Match
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Overall Compatibility Analysis -->
+          <div class="section">
+            <h2 class="section-title">3. Overall Compatibility Analysis</h2>
+
+            <div class="overall-analysis">
+              <h3>Overall Compatibility Score</h3>
+              <div id="r_overall_score" class="overall-score">80%</div>
+              <p>
+                Strong Compatibility - Excellent Foundation for a Lasting
+                Relationship
+              </p>
+            </div>
+          </div>
+
+          <!-- Section 4: Relationship Assessment -->
+          <div class="section">
+            <h2 class="section-title">
+              4. Professional Relationship Assessment
+            </h2>
+
+            <div class="assessment-sections">
+              <div class="assessment-card strengths-card">
+                <h4>💚 Relationship Strengths</h4>
+                <p id="r_strengths">
+                  Both partners show strong emotional intelligence and
+                  complementary communication styles, creating a solid
+                  foundation for understanding and growth.
+                </p>
+              </div>
+
+              <div class="assessment-card weaknesses-card">
+                <h4>⚠️ Potential Challenges</h4>
+                <p id="r_challenges">
+                  Different conflict resolution approaches may require patience
+                  and compromise to find common ground during disagreements.
+                </p>
+              </div>
+            </div>
+
+            <div class="suggestions-card">
+              <h4>💡 Professional Recommendations</h4>
+              <p id="r_recommendations">
+                Focus on leveraging your complementary strengths while working
+                on understanding and respecting each other's different
+                approaches to conflict resolution. Regular check-ins about
+                emotional needs will strengthen your bond.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer">
+            <p>
+              &copy; 2025 Professional Handwriting Analysis Services. All rights
+              reserved.
+            </p>
+            <p>
+              This confidential compatibility report is prepared exclusively for
+              <span id="r_couple_names">Sarah Johnson & Michael Chen</span>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- RIGHT PANEL: Preview -->
-    <div class="panel preview-area">
-      <div id="reportRoot" class="report-wrap">
-        <!-- Header -->
-        <div class="header">
-          <h1>Couple Compatibility Analysis Report</h1>
-          <p>Professional Couple Relationship Assessment</p>
-        </div>
-
-        <!-- Section 1: Couple Information -->
-        <div class="section">
-          <h2 class="section-title">1. Couple Information</h2>
-          
-          <div class="couple-info">
-            <!-- Person 1 Info -->
-            <div class="person-info">
-              <h2 id="r_person1_name">Person 1: Sarah Johnson</h2>
-              <div class="info-grid">
-                <div class="info-item">
-                  <span class="info-label">Age:</span>
-                  <span id="r_person1_age">28</span>
-                </div>
-                <div class="info-item">
-                  <span class="info-label">Analysis Date:</span>
-                  <span id="r_date">September 15, 2025</span>
-                </div>
-              </div>
-              
-              <h4>Signature Analysis</h4>
-              <div id="r_person1_signatureBox" class="image-box">
-                <img id="r_person1_signature_img" class="report-img" src="" alt="Signature" style="display:none;" />
-                <div id="r_person1_signature_placeholder">No signature uploaded</div>
-              </div>
-
-              <h4>Handwriting Analysis</h4>
-              <div id="r_person1_handwritingBox" class="image-box">
-                <img id="r_person1_handwriting_img" class="report-img" src="" alt="Handwriting" style="display:none;" />
-                <div id="r_person1_handwriting_placeholder">No handwriting uploaded</div>
-              </div>
-            </div>
-
-            <!-- Person 2 Info -->
-            <div class="person-info">
-              <h2 id="r_person2_name">Person 2: Michael Chen</h2>
-              <div class="info-grid">
-                <div class="info-item">
-                  <span class="info-label">Age:</span>
-                  <span id="r_person2_age">30</span>
-                </div>
-                <div class="info-item">
-                  <span class="info-label">Report ID:</span>
-                  <span id="r_id">COUPLE-2025-001</span>
-                </div>
-              </div>
-              
-              <h4>Signature Analysis</h4>
-              <div id="r_person2_signatureBox" class="image-box">
-                <img id="r_person2_signature_img" class="report-img" src="" alt="Signature" style="display:none;" />
-                <div id="r_person2_signature_placeholder">No signature uploaded</div>
-              </div>
-
-              <h4>Handwriting Analysis</h4>
-              <div id="r_person2_handwritingBox" class="image-box">
-                <img id="r_person2_handwriting_img" class="report-img" src="" alt="Handwriting" style="display:none;" />
-                <div id="r_person2_handwriting_placeholder">No handwriting uploaded</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 2: Individual Trait Analysis Comparison -->
-        <div class="section">
-          <h2 class="section-title">2. Individual Trait Analysis & Compatibility</h2>
-
-          <!-- Emotional Handling Comparison -->
-          <div class="trait-comparison">
-            <h4>Emotional Handling Compatibility</h4>
-            <div class="person-traits">
-              <div class="person-trait">
-                <h5 id="r_person1_emotional_title">Sarah's Emotional Style</h5>
-                <ul id="r_person1_emotional_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person1_emotional_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-              <div class="person-trait">
-                <h5 id="r_person2_emotional_title">Michael's Emotional Style</h5>
-                <ul id="r_person2_emotional_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person2_emotional_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-            </div>
-            <div id="r_emotional_compatibility" class="compatibility-score score-medium">
-              Compatibility Score: 75% - Good Match
-            </div>
-          </div>
-
-          <!-- Communication Style Comparison -->
-          <div class="trait-comparison">
-            <h4>Communication Style Compatibility</h4>
-            <div class="person-traits">
-              <div class="person-trait">
-                <h5 id="r_person1_communication_title">Sarah's Communication</h5>
-                <ul id="r_person1_communication_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person1_communication_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-              <div class="person-trait">
-                <h5 id="r_person2_communication_title">Michael's Communication</h5>
-                <ul id="r_person2_communication_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person2_communication_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-            </div>
-            <div id="r_communication_compatibility" class="compatibility-score score-high">
-              Compatibility Score: 85% - Excellent Match
-            </div>
-          </div>
-
-          <!-- Conflict Resolution Comparison -->
-          <div class="trait-comparison">
-            <h4>Conflict Resolution Compatibility</h4>
-            <div class="person-traits">
-              <div class="person-trait">
-                <h5 id="r_person1_conflict_title">Sarah's Conflict Style</h5>
-                <ul id="r_person1_conflict_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person1_conflict_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-              <div class="person-trait">
-                <h5 id="r_person2_conflict_title">Michael's Conflict Style</h5>
-                <ul id="r_person2_conflict_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person2_conflict_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-            </div>
-            <div id="r_conflict_compatibility" class="compatibility-score score-medium">
-              Compatibility Score: 70% - Good Match
-            </div>
-          </div>
-
-          <!-- Intimacy Needs Comparison -->
-          <div class="trait-comparison">
-            <h4>Intimacy Needs Compatibility</h4>
-            <div class="person-traits">
-              <div class="person-trait">
-                <h5 id="r_person1_intimacy_title">Sarah's Intimacy Needs</h5>
-                <ul id="r_person1_intimacy_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person1_intimacy_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-              <div class="person-trait">
-                <h5 id="r_person2_intimacy_title">Michael's Intimacy Needs</h5>
-                <ul id="r_person2_intimacy_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person2_intimacy_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-            </div>
-            <div id="r_intimacy_compatibility" class="compatibility-score score-high">
-              Compatibility Score: 90% - Excellent Match
-            </div>
-          </div>
-
-          <!-- Family Dynamics Comparison -->
-          <div class="trait-comparison">
-            <h4>Family Dynamics Compatibility</h4>
-            <div class="person-traits">
-              <div class="person-trait">
-                <h5 id="r_person1_family_title">Sarah's Family Dynamics</h5>
-                <ul id="r_person1_family_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person1_family_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-              <div class="person-trait">
-                <h5 id="r_person2_family_title">Michael's Family Dynamics</h5>
-                <ul id="r_person2_family_list">
-                  <li>Select traits to see analysis</li>
-                </ul>
-                <p id="r_person2_family_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-              </div>
-            </div>
-            <div id="r_family_compatibility" class="compatibility-score score-high">
-              Compatibility Score: 90% - Excellent Match
-            </div>
-          </div>
-
-              <!-- Financial Handling Comparison -->
-              <div class="trait-comparison">
-                <h4>Financial Handling Compatibility</h4>
-                <div class="person-traits">
-                  <div class="person-trait">
-                    <h5 id="r_person1_financial_title">Sarah's Financial Handling</h5>
-                    <ul id="r_person1_financial_list">
-                      <li>Select traits to see analysis</li>
-                    </ul>
-                    <p id="r_person1_financial_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-                  </div>
-                  <div class="person-trait">
-                    <h5 id="r_person2_financial_title">Michael's Financial Handling</h5>
-                    <ul id="r_person2_financial_list">
-                      <li>Select traits to see analysis</li>
-                    </ul>
-                    <p id="r_person2_financial_notes" style="font-size: 0.8em; color: #666; margin-top: 8px; font-style: italic;">No notes provided</p>
-                  </div>
-                </div>
-                <div id="r_financial_compatibility" class="compatibility-score score-high">
-                  Compatibility Score: 90% - Excellent Match
-                </div>
-              </div>
-
-
-
-        </div>
-
-        <!-- Section 3: Overall Compatibility Analysis -->
-        <div class="section">
-          <h2 class="section-title">3. Overall Compatibility Analysis</h2>
-
-          <div class="overall-analysis">
-            <h3>Overall Compatibility Score</h3>
-            <div id="r_overall_score" class="overall-score">80%</div>
-            <p>Strong Compatibility - Excellent Foundation for a Lasting Relationship</p>
-          </div>
-        </div>
-
-        <!-- Section 4: Relationship Assessment -->
-        <div class="section">
-          <h2 class="section-title">4. Professional Relationship Assessment</h2>
-
-          <div class="assessment-sections">
-            <div class="assessment-card strengths-card">
-              <h4>💚 Relationship Strengths</h4>
-              <p id="r_strengths">Both partners show strong emotional intelligence and complementary communication styles, creating a solid foundation for understanding and growth.</p>
-            </div>
-
-            <div class="assessment-card weaknesses-card">
-              <h4>⚠️ Potential Challenges</h4>
-              <p id="r_challenges">Different conflict resolution approaches may require patience and compromise to find common ground during disagreements.</p>
-            </div>
-          </div>
-
-          <div class="suggestions-card">
-            <h4>💡 Professional Recommendations</h4>
-            <p id="r_recommendations">Focus on leveraging your complementary strengths while working on understanding and respecting each other's different approaches to conflict resolution. Regular check-ins about emotional needs will strengthen your bond.</p>
-          </div>
-        </div>
-
-        <div class="footer">
-          <p>&copy; 2025 Professional Handwriting Analysis Services. All rights reserved.</p>
-          <p>This confidential compatibility report is prepared exclusively for <span id="r_couple_names">Sarah Johnson & Michael Chen</span></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="js/relation-couple.ui.js"></script>
-</body>
+    <script type="module" src="js/relation-couple.ui.js"></script>
+  </body>
 </html>

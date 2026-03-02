@@ -36,9 +36,15 @@ const resetBtn = document.getElementById("resetBtn");
 if (resetBtn) resetBtn.addEventListener("click", resetForm);
 
 const downloadHtmlBtn = document.getElementById("downloadHtml");
-if (downloadHtmlBtn) downloadHtmlBtn.addEventListener("click", downloadHtmlSnapshot);
+if (downloadHtmlBtn)
+  downloadHtmlBtn.addEventListener("click", downloadHtmlSnapshot);
 
-["person1Signature", "person1Handwriting", "person2Signature", "person2Handwriting"].forEach((id) => {
+[
+  "person1Signature",
+  "person1Handwriting",
+  "person2Signature",
+  "person2Handwriting",
+].forEach((id) => {
   const input = document.getElementById(id);
   if (!input) return;
 

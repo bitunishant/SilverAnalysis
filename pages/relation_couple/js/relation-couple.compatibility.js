@@ -19,7 +19,12 @@
  * - This module does not handle uploads, reset flow, PDF, or HTML export.
  */
 
-import { CATEGORY_KEYS, COMPATIBILITY_RULES, TRAIT_DATA, WEIGHTS } from "./relation-couple.constants.js";
+import {
+  CATEGORY_KEYS,
+  COMPATIBILITY_RULES,
+  TRAIT_DATA,
+  WEIGHTS,
+} from "./relation-couple.constants.js";
 import { getSelectedCheckboxValues } from "./relation-couple.helpers.js";
 
 export function calculateCompatibilityScore(person1Traits, person2Traits) {
@@ -53,7 +58,8 @@ export function calculateCompatibilityScore(person1Traits, person2Traits) {
     }
   });
 
-  const score = totalWeight > 0 ? Math.round((weightedScore / totalWeight) * 100) : 0;
+  const score =
+    totalWeight > 0 ? Math.round((weightedScore / totalWeight) * 100) : 0;
   let level = "Challenging Match";
   if (score >= 85) level = "Excellent Match";
   else if (score >= 70) level = "Good Match";
@@ -63,16 +69,22 @@ export function calculateCompatibilityScore(person1Traits, person2Traits) {
 }
 
 export function updateTraitAnalyses() {
-  const person1Name = document.getElementById("person1Name")?.value || "Person 1";
-  const person2Name = document.getElementById("person2Name")?.value || "Person 2";
+  const person1Name =
+    document.getElementById("person1Name")?.value || "Person 1";
+  const person2Name =
+    document.getElementById("person2Name")?.value || "Person 2";
 
   let weightedScore = 0;
   let totalWeight = 0;
 
   CATEGORY_KEYS.forEach((category) => {
     const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
-    const person1Traits = getSelectedCheckboxValues(`person1${categoryName}Select`);
-    const person2Traits = getSelectedCheckboxValues(`person2${categoryName}Select`);
+    const person1Traits = getSelectedCheckboxValues(
+      `person1${categoryName}Select`,
+    );
+    const person2Traits = getSelectedCheckboxValues(
+      `person2${categoryName}Select`,
+    );
 
     const p1Title = document.getElementById(`r_person1_${category}_title`);
     const p2Title = document.getElementById(`r_person2_${category}_title`);
@@ -85,9 +97,16 @@ export function updateTraitAnalyses() {
 
       if (traits.length > 0) {
         const analyses = traits
-          .map((trait) => (TRAIT_DATA[category][trait] ? `<li>${TRAIT_DATA[category][trait]}</li>` : ""))
+          .map((trait) =>
+            TRAIT_DATA[category][trait]
+              ? `<li>${TRAIT_DATA[category][trait]}</li>`
+              : "",
+          )
           .filter(Boolean);
-        list.innerHTML = analyses.length > 0 ? analyses.join("") : "<li>No analysis available</li>";
+        list.innerHTML =
+          analyses.length > 0
+            ? analyses.join("")
+            : "<li>No analysis available</li>";
       } else {
         list.innerHTML = "<li>Select traits to see analysis</li>";
       }
@@ -98,8 +117,12 @@ export function updateTraitAnalyses() {
 
     const p1Notes = document.getElementById(`r_person1_${category}_notes`);
     const p2Notes = document.getElementById(`r_person2_${category}_notes`);
-    const p1NotesValue = document.getElementById(`person1${categoryName}Notes`)?.value || "No notes provided";
-    const p2NotesValue = document.getElementById(`person2${categoryName}Notes`)?.value || "No notes provided";
+    const p1NotesValue =
+      document.getElementById(`person1${categoryName}Notes`)?.value ||
+      "No notes provided";
+    const p2NotesValue =
+      document.getElementById(`person2${categoryName}Notes`)?.value ||
+      "No notes provided";
 
     // Requested behavior parity with individual tool:
     // emotional notes should support bullet formatting when multi-line text is provided.
@@ -107,11 +130,18 @@ export function updateTraitAnalyses() {
     // with inline list-style and indentation for this specific notes area.
     if (category === "emotional") {
       const toNotesBulletHtml = (value) => {
-        if (!value.trim()) return '<div class="empty-state">No information provided</div>';
-        const lines = value.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+        if (!value.trim())
+          return '<div class="empty-state">No information provided</div>';
+        const lines = value
+          .split(/\n+/)
+          .map((line) => line.trim())
+          .filter(Boolean);
         if (lines.length > 1) {
           return `<ul style="list-style: disc; padding-left: 18px; margin: 6px 0;">${lines
-            .map((line) => `<li style="border-bottom:none; margin: 4px 0;">${line}</li>`)
+            .map(
+              (line) =>
+                `<li style="border-bottom:none; margin: 4px 0;">${line}</li>`,
+            )
             .join("")}</ul>`;
         }
         return `<p>${lines[0]}</p>`;
@@ -129,31 +159,43 @@ export function updateTraitAnalyses() {
 
     const compatibility = calculateCompatibilityScore(
       { [category]: person1Traits },
-      { [category]: person2Traits }
+      { [category]: person2Traits },
     );
 
     if (compatibility.score > 0) {
       scoreElement.textContent = `Compatibility Score: ${compatibility.score}% - ${compatibility.level}`;
       scoreElement.className = `compatibility-score ${
-        compatibility.score >= 85 ? "score-high" : compatibility.score >= 70 ? "score-medium" : "score-low"
+        compatibility.score >= 85
+          ? "score-high"
+          : compatibility.score >= 70
+            ? "score-medium"
+            : "score-low"
       }`;
       weightedScore += (compatibility.score / 100) * WEIGHTS[category];
       totalWeight += WEIGHTS[category];
     } else {
-      scoreElement.textContent = "Select traits for both people to calculate compatibility";
+      scoreElement.textContent =
+        "Select traits for both people to calculate compatibility";
       scoreElement.className = "compatibility-score score-medium";
     }
   });
 
-  const overallScore = totalWeight > 0 ? Math.round((weightedScore / totalWeight) * 100) : 0;
+  const overallScore =
+    totalWeight > 0 ? Math.round((weightedScore / totalWeight) * 100) : 0;
   const scoreEl = document.getElementById("r_overall_score");
   if (scoreEl) scoreEl.textContent = `${overallScore}%`;
 
-  let overallLevel = "Complete trait analysis to calculate overall compatibility";
-  if (overallScore >= 85) overallLevel = "Exceptional Compatibility - Outstanding Match";
-  else if (overallScore >= 70) overallLevel = "Strong Compatibility - Excellent Foundation for a Lasting Relationship";
-  else if (overallScore >= 50) overallLevel = "Moderate Compatibility - Good Potential with Effort";
-  else if (overallScore > 0) overallLevel = "Lower Compatibility - Requires Significant Understanding";
+  let overallLevel =
+    "Complete trait analysis to calculate overall compatibility";
+  if (overallScore >= 85)
+    overallLevel = "Exceptional Compatibility - Outstanding Match";
+  else if (overallScore >= 70)
+    overallLevel =
+      "Strong Compatibility - Excellent Foundation for a Lasting Relationship";
+  else if (overallScore >= 50)
+    overallLevel = "Moderate Compatibility - Good Potential with Effort";
+  else if (overallScore > 0)
+    overallLevel = "Lower Compatibility - Requires Significant Understanding";
 
   const overallText = document.querySelector(".overall-analysis p");
   if (overallText) overallText.textContent = overallLevel;

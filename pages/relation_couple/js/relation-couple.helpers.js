@@ -27,7 +27,9 @@ export function getSelectedCheckboxValues(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return [];
 
-  const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+  const checkboxes = container.querySelectorAll(
+    'input[type="checkbox"]:checked',
+  );
   return Array.from(checkboxes).map((cb) => cb.value);
 }
 
@@ -38,7 +40,7 @@ export function handleImageUpload(input, person, type) {
   const reader = new FileReader();
   reader.onload = function (e) {
     const previewDiv = document.getElementById(
-      `${person}${type.charAt(0).toUpperCase() + type.slice(1)}Preview`
+      `${person}${type.charAt(0).toUpperCase() + type.slice(1)}Preview`,
     );
     if (!previewDiv) return;
 
@@ -48,8 +50,12 @@ export function handleImageUpload(input, person, type) {
 }
 
 export const formatAsBullets = (text) => {
-  if (!text.trim()) return '<div class="empty-state">No information provided</div>';
-  const lines = text.split(/\n+/).map((line) => line.trim()).filter((line) => line);
+  if (!text.trim())
+    return '<div class="empty-state">No information provided</div>';
+  const lines = text
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter((line) => line);
   if (lines.length > 1) {
     return `<ul>${lines.map((line) => `<li>${line}</li>`).join("")}</ul>`;
   }

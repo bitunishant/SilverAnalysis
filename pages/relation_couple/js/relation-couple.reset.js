@@ -29,7 +29,12 @@ export function resetForm() {
   if (reportDate) reportDate.value = "September 15, 2025";
   if (reportId) reportId.value = "COUPLE-2025-001";
 
-  ["person1Signature", "person1Handwriting", "person2Signature", "person2Handwriting"].forEach((id) => {
+  [
+    "person1Signature",
+    "person1Handwriting",
+    "person2Signature",
+    "person2Handwriting",
+  ].forEach((id) => {
     const input = document.getElementById(id);
     const preview = document.getElementById(`${id}Preview`);
     if (input) input.value = "";
@@ -46,7 +51,9 @@ export function resetForm() {
 
   const strengths = document.getElementById("relationshipStrengths");
   const challenges = document.getElementById("relationshipChallenges");
-  const recommendations = document.getElementById("relationshipRecommendations");
+  const recommendations = document.getElementById(
+    "relationshipRecommendations",
+  );
 
   if (strengths) {
     strengths.value =

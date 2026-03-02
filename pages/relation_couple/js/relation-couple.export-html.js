@@ -38,7 +38,9 @@ export async function downloadHtmlSnapshot() {
   const styles = Array.from(document.styleSheets)
     .map((ss) => {
       try {
-        return Array.from(ss.cssRules).map((rule) => rule.cssText).join("");
+        return Array.from(ss.cssRules)
+          .map((rule) => rule.cssText)
+          .join("");
       } catch {
         return "";
       }
