@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,8 +10,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="sign_premium.css">
 
- 
+
 </head>
+
 <body>
   <div class="app">
     <!-- LEFT PANEL: FORM CONTROLS -->
@@ -20,10 +22,10 @@
       <!-- Client info -->
       <div class="form-section">
         <label for="clientName">Client Name</label>
-        <input id="clientName" type="text" value="Meera Khan" oninput="applyFormToReport()"/>
+        <input id="clientName" type="text" value="Meera Khan" oninput="applyFormToReport()" />
 
         <label for="reportDate">Date</label>
-        <input id="reportDate" type="text" oninput="applyFormToReport()"/>
+        <input id="reportDate" type="text" oninput="applyFormToReport()" />
         <script>
           const today = new Date();
           const formattedDate = today.toLocaleDateString("en-US", {
@@ -58,19 +60,19 @@
         <textarea id="mistakes" hidden></textarea>
 
         <div id="mistakeDescriptions"></div>
-      
+
       </div>
 
-           <!-- Section 2 options -->
-           <div class="form-section">
-            <h3 class="small">Section 2 -Graphological  Mistakes in Handwriting</h3>
-            <label>Upload Current Handwriting (Section 2)</label>
-            <input id="uploadMainHandwriting" type="file" accept="image/*" />
-            <div id="mainPreviewHandwriting" class="muted" style="margin-top:8px">No image</div>
-    
-            <label>Graphological Mistakes In Handwriting(Choose Multiple)</label>
+      <!-- Section 2 options -->
+      <div class="form-section">
+        <h3 class="small">Section 2 -Graphological Mistakes in Handwriting</h3>
+        <label>Upload Current Handwriting (Section 2)</label>
+        <input id="uploadMainHandwriting" type="file" accept="image/*" />
+        <div id="mainPreviewHandwriting" class="muted" style="margin-top:8px">No image</div>
 
-<!-- CATEGORY -->
+        <label>Graphological Mistakes In Handwriting(Choose Multiple)</label>
+
+        <!-- CATEGORY -->
         <select id="handCategory">
           <option value="">Select category</option>
         </select>
@@ -85,49 +87,46 @@
         <textarea id="handMistakes" hidden></textarea>
 
         <div id="handMistakeDescriptions"></div>
-          </div>
-          <button type="button" onclick="promptAddHandwritingMistake()">
-  ➕ Add New Handwriting Mistake
-</button>
-          <hr style="margin:14px 0" />
+      </div>
+      <button type="button" onclick="promptAddHandwritingMistake()">
+        + Add New Handwriting Mistake
+      </button>
+      <hr style="margin:14px 0" />
 
       <!-- Section 3 -->
       <div class="form-section">
-  <h3 class="small">Section 3 - Personality</h3>
+        <h3 class="small">Section 3 - Personality</h3>
 
-  <label>Strengths</label>
-  <div class="dropdown-field">
-    <div id="strengthsTagContainer" class="tag-container"></div>
-    <input type="text" id="strengthsInput" placeholder="Type to search or add" />
-    <div id="strengthsDropdown" class="dropdown"></div>
-  </div>
-  <textarea id="strengths" hidden></textarea>
+        <label>Strengths</label>
+        <div class="dropdown-field">
+          <div id="strengthsTagContainer" class="tag-container"></div>
+          <input type="text" id="strengthsInput" placeholder="Type to search or add" />
+          <div id="strengthsDropdown" class="dropdown"></div>
+        </div>
+        <textarea id="strengths" hidden></textarea>
 
-  <label style="margin-top:8px">Weaknesses</label>
-  <div class="dropdown-field">
-    <div id="weaknessesTagContainer" class="tag-container"></div>
-    <input type="text" id="weaknessesInput" placeholder="Type to search or add" />
-    <div id="weaknessesDropdown" class="dropdown"></div>
-  </div>
-  <textarea id="weaknesses" hidden></textarea>
+        <label style="margin-top:8px">Weaknesses</label>
+        <div class="dropdown-field">
+          <div id="weaknessesTagContainer" class="tag-container"></div>
+          <input type="text" id="weaknessesInput" placeholder="Type to search or add" />
+          <div id="weaknessesDropdown" class="dropdown"></div>
+        </div>
+        <textarea id="weaknesses" hidden></textarea>
 
-  <label style="margin-top:8px">Personality Pointers (for AI)</label>
-<textarea id="overallAssessment"
-  placeholder="Enter strengths, weaknesses, patterns, observations..."></textarea>
+        <label style="margin-top:8px">Personality Pointers (for AI)</label>
+        <textarea id="overallAssessment"
+          placeholder="Enter strengths, weaknesses, patterns, observations..."></textarea>
 
-<button
-  id="overallBtn"
-  type="button"
-  onclick="generateOverallPersonality()">
-  Generate with AI
-</button>
+        <button id="overallBtn" type="button" onclick="generateOverallPersonality()">
+          Generate with AI
+        </button>
 
-<span id="overallLoader" style="display:none;margin-left:8px">
-  ⏳ Generating...
-</span>
-</div>
+        <span id="overallLoader" style="display:none;margin-left:8px">
+          Generating...
+        </span>
+      </div>
       <hr style="margin:14px 0" />
-      
+
 
       <!-- Section 4 -->
       <div class="form-section">
@@ -136,95 +135,94 @@
         <input id="uploadThree" type="file" accept="image/*" multiple />
         <div id="threePreview" class="muted" style="margin-top:8px">No images</div>
 
-      <label>Corrections in Signature (Choose Multiple)</label>
+        <label>Corrections in Signature (Choose Multiple)</label>
 
-<div class="dropdown-field">
-  <div id="correctionsTagContainer" class="tag-container"></div>
-  <input id="correctionsInput" placeholder="Select correction" />
-  <div id="correctionsDropdown" class="dropdown"></div>
-</div>
+        <div class="dropdown-field">
+          <div id="correctionsTagContainer" class="tag-container"></div>
+          <input id="correctionsInput" placeholder="Select correction" />
+          <div id="correctionsDropdown" class="dropdown"></div>
+        </div>
 
-<textarea id="corrections" hidden></textarea>
+        <textarea id="corrections" hidden></textarea>
 
-<div id="correctionDescriptions"></div>
+        <div id="correctionDescriptions"></div>
 
-      
+
       </div>
       <hr style="margin:14px 0" />
-      
+
 
       <!-- Section 5 -->
       <div class="form-section">
-  <h3 class="small">Section 5 - Benefits / Paragraphs</h3>
+        <h3 class="small">Section 5 - Benefits / Paragraphs</h3>
 
-  <label>Overall Solution for <span id="benefitClientName">USER</span></label>
+        <label>Overall Solution for <span id="benefitClientName">USER</span></label>
 
-  <textarea
-    id="overallBenefit"
-    placeholder="Describe how the corrected signature benefits the client..."
-  ></textarea>
+        <textarea id="overallBenefit"
+          placeholder="Describe how the corrected signature benefits the client..."></textarea>
 
-  <button
-    id="benefitBtn"
-    type="button"
-    onclick="generateOverallBenefit()">
-    Generate with AI
-  </button>
+        <button id="benefitBtn" type="button" onclick="generateOverallBenefit()">
+          Generate with AI
+        </button>
 
-  <span id="benefitLoader" style="display:none;margin-left:8px">
-    ⏳ Generating...
-  </span>
-</div>
+        <span id="benefitLoader" style="display:none;margin-left:8px">
+          Generating...
+        </span>
+      </div>
       <hr style="margin:14px 0" />
-      
 
-           <!-- Section 6 options -->
-    
-           <div class="form-section">
-            <h3 class="small">Section 6 - Graphological  Corrections in Handwriting</h3>
-            <label>Upload Corrected Handwriting (Section 6)</label>
-            <input id="uploadCorrectHandwriting" type="file" accept="image/*" />
-            <div id="PreviewCorrectHandwriting" class="muted" style="margin-top:8px">No image</div>
-    
-            <div class="muted">Graphological Corrections in your Handwriting</div>
-            <label>Handwriting Corrections Made</label>
 
-<select id="handCorrectionCategory">
-  <option value="">Select Category</option>
-</select>
+      <!-- Section 6 options -->
 
-<div class="dropdown-field">
-  <div id="handCorrectionTagContainer" class="tag-container"></div>
-  <input id="handCorrectionInput" placeholder="Select corrections" />
-  <div id="handCorrectionDropdown" class="dropdown"></div>
-</div>
+      <div class="form-section">
+        <h3 class="small">Section 6 - Graphological Corrections in Handwriting</h3>
+        <label>Upload Corrected Handwriting (Section 6)</label>
+        <input id="uploadCorrectHandwriting" type="file" accept="image/*" />
+        <div id="PreviewCorrectHandwriting" class="muted" style="margin-top:8px">No image</div>
 
-<textarea id="handCorrections" hidden></textarea>
-<div id="handCorrectionDescriptions"></div>
+        <div class="muted">Graphological Corrections in your Handwriting</div>
+        <label>Handwriting Corrections Made</label>
 
-          </div>
+        <select id="handCorrectionCategory">
+          <option value="">Select Category</option>
+        </select>
 
-          <hr style="margin:14px 0" />
-      
+        <div class="dropdown-field">
+          <div id="handCorrectionTagContainer" class="tag-container"></div>
+          <input id="handCorrectionInput" placeholder="Select corrections" />
+          <div id="handCorrectionDropdown" class="dropdown"></div>
+        </div>
 
-         
+        <textarea id="handCorrections" hidden></textarea>
+        <div id="handCorrectionDescriptions"></div>
+        <button type="button" onclick="promptAddHandwritingCorrection()">
+          + Add New Handwriting Correction
+        </button>
+      </div>
+
+      <hr style="margin:14px 0" />
+
+
+
       <!-- Section 7 -->
       <div class="form-section">
         <h3 class="small">Section 7 - How to Practice new Signature</h3>
-        
+
         <label>Affirmation</label>
         <textarea id="phase3">I am attracting abundance in my life.</textarea>
-        <div style="margin-top:8px" class="muted">Things to remember: You will have a fixed text shown in the report.</div>
+        <div style="margin-top:8px" class="muted">Things to remember: You will have a fixed text shown in the report.
+        </div>
       </div>
       <hr style="margin:14px 0" />
-      
+
 
       <!-- Section 8 -->
       <div class="form-section">
         <h3 class="small">Section 8 - Legal & Expert Recommendation</h3>
         <div class="muted">Fixed heading: "Understanding Legal Signature Changes" will be shown.</div>
         <label style="margin-top:8px">Expert Recommendation</label>
-        <textarea id="expertRec">Given the analysis of your current signature's limitations, we recommend implementing the new signature gradually over 6 months...</textarea>
+        <textarea
+          id="expertRec">Given the analysis of your current signature's limitations, we recommend implementing the new signature gradually over 6 months...</textarea>
       </div>
 
       <hr style="margin:14px 0" />
@@ -232,15 +230,15 @@
 
 
 
-   
+
       <!-- Controls -->
       <div class="controls-row">
         <button id="applyBtn" class="btn btn-primary">Apply to Preview</button>
-        <button id="downloadHtml" class="btn btn-primary">Download HTML</button>  
+        <button id="downloadHtml" class="btn btn-primary">Download HTML</button>
         <button id="resetBtn" class="btn btn-ghost">Reset</button>
       </div>
 
-      
+
     </div>
 
 
@@ -285,35 +283,40 @@
             <div id="r_main_placeholder">No signature uploaded</div>
           </div>
 
-           <ol id="r_mistakes_list" class="mistakes-list numbered"></ol>
+          <ol id="r_mistakes_list" class="mistakes-list numbered"></ol>
 
-        
+
         </div>
 
-           <!-- Section 2 -->
+        <!-- Section 2 -->
 
-       
-       <div class="section">
-        <h2 class="section-title">2. GRAPHOLOGICAL MISTAKES IN HANDWRITING</h2>
 
-        <h3>Current Handwriting Analysis</h3>
-        <div id="r_handwritingBox" class="signature-box current-signature">
-          <img id="r_handwriting_img" class="report-img" src="" alt="Current Signature" style="display:none;" />
-          <div id="r_handwriting_placeholder">No handwriting uploaded</div>
-        </div>
-        <div style="background: #d1ecf1; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F; margin-top: 30px;">
-            <h4 style="color: #1a1a1a;"> Graphological Mistakes in <span id ="r_hand_mistake_name">Meera</span> Handwriting</h4>
-            <p id="r_handwritingMistakes" style="color: #1a1a1a;"> Given the analysis of your current signature's limitations, we recommend implementing the new signature gradually over 6 months. Start with personal documents, then move to professional ones, and finally update official records. This ensures consistency and builds confidence.</p>
+        <div class="section">
+          <h2 class="section-title">2. GRAPHOLOGICAL MISTAKES IN HANDWRITING</h2>
+
+          <h3>Current Handwriting Analysis</h3>
+          <div id="r_handwritingBox" class="signature-box current-signature">
+            <img id="r_handwriting_img" class="report-img" src="" alt="Current Signature" style="display:none;" />
+            <div id="r_handwriting_placeholder">No handwriting uploaded</div>
+          </div>
+          <div
+            style="background: #d1ecf1; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F; margin-top: 30px;">
+            <h4 style="color: #1a1a1a;"> Graphological Mistakes in <span id="r_hand_mistake_name">Meera</span>
+              Handwriting</h4>
+            <p id="r_handwritingMistakes" style="color: #1a1a1a;"> Given the analysis of your current signature's
+              limitations, we recommend implementing the new signature gradually over 6 months. Start with personal
+              documents, then move to professional ones, and finally update official records. This ensures consistency
+              and builds confidence.</p>
           </div>
 
-       
-      </div>
+
+        </div>
 
         <!-- Section 3 -->
         <div class="section">
           <h2 class="section-title">3. PERSONALITY ANALYSIS</h2>
 
-        <div class="personality-grid">
+          <div class="personality-grid">
             <div class="personality-card">
               <h3> Personality Strengths</h3>
               <ul id="r_strengths_list"></ul>
@@ -323,9 +326,12 @@
               <h3>Personality Weaknesses </h3>
               <ul id="r_weaknesses_list"></ul>
             </div>
-          </div> 
-            
-          <p><strong>Overall Personality Assessment of <span id = "r_overall_name" >Meera Khan</span>:</strong> <span id="r_overall"> You possesses significant untapped potential that is currently being hindered by subconscious negative patterns reflected in her signature. With proper correction techniques, these limitations can be transformed into strengths.</span></p>
+          </div>
+
+          <p><strong>Overall Personality Assessment of <span id="r_overall_name">Meera Khan</span>:</strong> <span
+              id="r_overall"> You possesses significant untapped potential that is currently being hindered by
+              subconscious negative patterns reflected in her signature. With proper correction techniques, these
+              limitations can be transformed into strengths.</span></p>
         </div>
 
         <!-- Section 4 -->
@@ -334,7 +340,8 @@
 
           <h3>Recommended New Signature</h3>
           <div id="r_corrected_box" class="signature-box corrected-signature">
-            <div id="r_corrected_imgs" style="width:100%; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;"></div>
+            <div id="r_corrected_imgs"
+              style="width:100%; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;"></div>
           </div>
 
           <h3>Key Improvements Made:</h3>
@@ -346,33 +353,40 @@
           <h2 class="section-title">5. BENEFITS OF CORRECTED SIGNATURE IN YOUR LIFE</h2>
 
           <div class="benefits-grid">
-          
+
             <div class="benefit-card">
-              <div class="benefit-icon">✨</div>
+              <div class="benefit-icon">*</div>
               <h3>Overall Benefit for <span id="r_benefit_name">Meera Khan</span></h3>
-              <p id="r_overallbenefit">In here the reader will give me exact solution which the user wanted through signtaure correction</p>
+              <p id="r_overallbenefit">In here the reader will give me exact solution which the user wanted through
+                signtaure correction</p>
             </div>
           </div>
         </div>
 
-      <!-- section 6  -->
+        <!-- section 6  -->
 
-       
-      <div class="section">
-        <h2 class="section-title">6. GRAPHOLOGICAL CORRECTIONS IN HANDWRITING</h2>
 
-        
-        <div id="r_handwritingCorrectionBox" class="signature-box current-signature">
-          <img id="r_handwritingCorrection_img" class="report-img" src="" alt="Corrections in Handwriting" style="display:none;" />
-          <div id="r_handwritingCorrection_placeholder">No Corrected handwriting uploaded</div>
-        </div>
-        <div style="background: #d1ecf1; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F; margin-top: 30px;">
-            <h4 style="color: #1a1a1a;"> Graphological Corrections in <span id ="r_hand_correction_name">Meera</span> Handwriting</h4>
-            <p id="r_handwritingCorrections" style="color: #1a1a1a;">Given the analysis of your current signature's limitations, we recommend implementing the new signature gradually over 6 months. Start with personal documents, then move to professional ones, and finally update official records. This ensures consistency and builds confidence.</p>
+        <div class="section">
+          <h2 class="section-title">6. GRAPHOLOGICAL CORRECTIONS IN HANDWRITING</h2>
+
+
+          <div id="r_handwritingCorrectionBox" class="signature-box current-signature">
+            <img id="r_handwritingCorrection_img" class="report-img" src="" alt="Corrections in Handwriting"
+              style="display:none;" />
+            <div id="r_handwritingCorrection_placeholder">No Corrected handwriting uploaded</div>
           </div>
-    
-       
-      </div>
+          <div
+            style="background: #d1ecf1; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F; margin-top: 30px;">
+            <h4 style="color: #1a1a1a;"> Graphological Corrections in <span id="r_hand_correction_name">Meera</span>
+              Handwriting</h4>
+            <p id="r_handwritingCorrections" style="color: #1a1a1a;">Given the analysis of your current signature's
+              limitations, we recommend implementing the new signature gradually over 6 months. Start with personal
+              documents, then move to professional ones, and finally update official records. This ensures consistency
+              and builds confidence.</p>
+          </div>
+
+
+        </div>
 
 
         <!-- Section 7 -->
@@ -389,7 +403,7 @@
                   <li>Get a blank notebook (unlined pages work best for free-form practice) </li>
 
                 </ul>
-                        
+
               </div>
 
               <h3 style="color: #1a1a1a; margin-bottom: 20px; margin-top:20px;">Your Daily Practice Routine:</h3>
@@ -399,64 +413,80 @@
                   <li>Continue this practice consistently for 3 months </li>
                   <li> As you write each signature, repeat the given affirmation below</li>
                 </ul>
-                
+
               </div>
 
-              
+
 
               <!-- affirmation box  -->
               <div style="background: white; padding: 20px; border: 2px solid #28a745; margin-top:20px;">
                 <h3 style="color: #1a1a1a; margin-bottom: 15px; text-decoration: underline;">Affirmation:</h3>
-                <h4 id="r_affirmation" style="color: #1a1a1a; margin-bottom: 15px;"><strong> Affirmation:</strong>  I am becoming a better version of me. I attract growth, happiness and abundance. </h4>
+                <h4 id="r_affirmation" style="color: #1a1a1a; margin-bottom: 15px;"><strong> Affirmation:</strong> I am
+                  becoming a better version of me. I attract growth, happiness and abundance. </h4>
 
-                
+
               </div>
             </div>
           </div>
-   <!-- important thing to remember -->
+          <!-- important thing to remember -->
           <h3 style="color: #1a1a1a; margin: 30px 0 20px 0;">**Important things to Remember</h3>
           <div style="background: #f8f9fa; color: black; padding: 25px; border-radius: 15px;">
             <div>
-              <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F;" >
+              <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F;">
                 <h4 style="color: #1a1a1a; margin-bottom: 15px; text-decoration: underline;">Self Talk</h4>
                 <ul id="r_selftalk"></ul>
                 <ul>
                   <li>Monitor the voice in your head - it shapes your reality more than external circumstances </li>
-                  <li>  Replace negative internal dialogue with encouraging, supportive thoughts</li>
+                  <li> Replace negative internal dialogue with encouraging, supportive thoughts</li>
                   <li>Practice catching yourself when you use limiting language like "I can't" or "I'm not good at"</li>
                 </ul>
-                <p id = "r_selftalk_impact " style = "margin-top: 10px;"> <strong> How it impacts growth: </strong> Your inner dialogue directly influences your confidence, decision-making, and willingness to take on challenges </p>
-                <p  id = "r_selftalk_practice "style = "margin-top: 10px;"> <strong> How to practice: </strong> Set reminders throughout the day to check in with your thoughts, and consciously reframe negative self-talk into constructive feedback </p>
+                <p id="r_selftalk_impact " style="margin-top: 10px;"> <strong> How it impacts growth: </strong> Your
+                  inner dialogue directly influences your confidence, decision-making, and willingness to take on
+                  challenges </p>
+                <p id="r_selftalk_practice " style="margin-top: 10px;"> <strong> How to practice: </strong> Set
+                  reminders throughout the day to check in with your thoughts, and consciously reframe negative
+                  self-talk into constructive feedback </p>
                 <!-- <p id = "r_selftalk_link "> <strong>Useful link:</strong> <a href="https://www.explormee.com/">How to practice the correct self talk</a> -->
                 </p>
-                
+
               </div>
 
-              <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #8E44AD; margin-top: 15px;" >
-                <h4 style="color: #1a1a1a; margin-bottom: 15px;margin-top:30px; text-decoration: underline;"> Environment </h4>
+              <div
+                style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #8E44AD; margin-top: 15px;">
+                <h4 style="color: #1a1a1a; margin-bottom: 15px;margin-top:30px; text-decoration: underline;">
+                  Environment </h4>
                 <ul id="r_environment"></ul>
                 <ul>
                   <li>Surround yourself with people, spaces, and influences that uplift and inspire you </li>
                   <li> Create physical spaces that reflect the person you're becoming, not who you used to be </li>
                   <li>Choose books, music, and media that align with your growth goals </li>
                 </ul>
-                <p id = "r_environment_impact " style = "margin-top: 10px;"> <strong> How it impacts growth: </strong> Your environment constantly programs your subconscious mind and influences your habits and beliefs </p>
-                <p id = "r_environment_practice " style = "margin-top: 10px;"> <strong> How to practice: </strong> Regularly audit your surroundings - declutter spaces that feel stagnant, distance yourself from negative influences, and intentionally add elements that support your vision</p>
+                <p id="r_environment_impact " style="margin-top: 10px;"> <strong> How it impacts growth: </strong> Your
+                  environment constantly programs your subconscious mind and influences your habits and beliefs </p>
+                <p id="r_environment_practice " style="margin-top: 10px;"> <strong> How to practice: </strong> Regularly
+                  audit your surroundings - declutter spaces that feel stagnant, distance yourself from negative
+                  influences, and intentionally add elements that support your vision</p>
                 <!-- <p id = "r_environment_link " > <strong>Useful link:</strong> <a href="https://www.explormee.com/">You are an outcome of your environment</a> -->
                 </p>
-                
+
               </div>
 
-              <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F; margin-top: 15px;" >
-                <h4 style="color: #1a1a1a; margin-bottom: 15px;margin-top:30px; text-decoration: underline;"> Breath  </h4>
+              <div
+                style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F; margin-top: 15px;">
+                <h4 style="color: #1a1a1a; margin-bottom: 15px;margin-top:30px; text-decoration: underline;"> Breath
+                </h4>
                 <ul id="r_breath"></ul>
                 <ul>
-                  <li>Your breathing pattern directly affects your nervous system and emotional state  </li>
-                  <li> Conscious breathing helps you stay present and centered during challenging moments  </li>
-                  <li>Deep, intentional breathing activates your body's relaxation response  </li>
+                  <li>Your breathing pattern directly affects your nervous system and emotional state </li>
+                  <li> Conscious breathing helps you stay present and centered during challenging moments </li>
+                  <li>Deep, intentional breathing activates your body's relaxation response </li>
                 </ul>
-                <p id="r_breath_impact" style = "margin-top: 10px;"> <strong> How it impacts growth: </strong>Proper breathing reduces stress, improves focus, and helps you respond thoughtfully rather than react impulsively </p>
-                <p id="r_breath_practice" style = "margin-top: 10px;"> <strong> How to practice</strong> Take 5 conscious deep breaths when you wake up, before important conversations, and when you feel overwhelmed - make it as automatic as checking your phone</p>
+                <p id="r_breath_impact" style="margin-top: 10px;"> <strong> How it impacts growth: </strong>Proper
+                  breathing reduces stress, improves focus, and helps you respond thoughtfully rather than react
+                  impulsively </p>
+                <p id="r_breath_practice" style="margin-top: 10px;"> <strong> How to practice</strong> Take 5 conscious
+                  deep breaths when you wake up, before important conversations, and when you feel overwhelmed - make it
+                  as automatic as checking your phone</p>
                 <!-- <p id="r_breath_link" > <strong>Useful link:</strong> <a href="https://www.explormee.com/">Most effective breathing techniques</a> -->
                 </p>
               </div>
@@ -468,19 +498,27 @@
         <div class="section">
           <h2 class="section-title">8. SHOULD YOU CHANGE SIGN LEGALLY?</h2>
 
-          <div style="background: linear-gradient(135deg, #8E44AD 0%, #9B59B6 100%); color: white; padding: 30px; border-radius: 15px; margin: 20px 0;">
+          <div
+            style="background: linear-gradient(135deg, #8E44AD 0%, #9B59B6 100%); color: white; padding: 30px; border-radius: 15px; margin: 20px 0;">
             <h3 style="margin-bottom: 20px; text-align: center;">Understanding Legal Signature Changes</h3>
-            <p id="r_legal_text" style="font-size: 1.1em; text-align: center; margin-bottom: 20px;">The signature we provide is specifically designed for practice to rewire your subconscious patterns.
-               We create graphologically correct signatures to bring out your best qualities, 
-               which may be quite simple for official use. Whether you choose to legally 
-               change your signature is entirely up to you. What matters most is practicing daily with the given affirmations. 
-               This consistent practice rewires your brain and shifts old patterns.
- </p>
+            <p id="r_legal_text" style="font-size: 1.1em; text-align: center; margin-bottom: 20px;">The signature we
+              provide is specifically designed for practice to rewire your subconscious patterns.
+              We create graphologically correct signatures to bring out your best qualities,
+              which may be quite simple for official use. Whether you choose to legally
+              change your signature is entirely up to you. What matters most is practicing daily with the given
+              affirmations.
+              This consistent practice rewires your brain and shifts old patterns.
+            </p>
           </div>
 
-          <div style="background: #d1ecf1; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F; margin-top: 30px;">
-            <h4 style="color: #1a1a1a;">💡 Expert Recommendation for <span id = "r_expert_sugg_name">Meera Khan</span> </h4>
-            <p id="r_expert_rec" style="color: #1a1a1a;"> Given the analysis of your current signature's limitations, we recommend implementing the new signature gradually over 6 months. Start with personal documents, then move to professional ones, and finally update official records. This ensures consistency and builds confidence.</p>
+          <div
+            style="background: #d1ecf1; padding: 20px; border-radius: 10px; border-left: 5px solid #F4D03F; margin-top: 30px;">
+            <h4 style="color: #1a1a1a;">Expert Recommendation for <span id="r_expert_sugg_name">Meera Khan</span>
+            </h4>
+            <p id="r_expert_rec" style="color: #1a1a1a;"> Given the analysis of your current signature's limitations, we
+              recommend implementing the new signature gradually over 6 months. Start with personal documents, then move
+              to professional ones, and finally update official records. This ensures consistency and builds confidence.
+            </p>
           </div>
         </div>
 
@@ -488,7 +526,7 @@
           <p>&copy; 2025 ExplorMee Signature Correction Services. All rights reserved.</p>
           <p>This report is confidential and prepared exclusively for <span id="r_footer_name">Meera Khan</span></p>
         </div>
-             
+
       </div>
     </div>
   </div>
@@ -498,5 +536,8 @@
   <script src="js/sign-premium.pdf.js"></script>
   <script src="js/export-html.js"></script>
   <script src="sign_premium.js"></script>
-  </body>
+</body>
+
 </html>
+
+
