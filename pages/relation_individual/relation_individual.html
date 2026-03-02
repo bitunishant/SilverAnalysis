@@ -4,6 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Handwriting Relationship Analyzer (Preview & Download PDF)</title>
+  <!--
+    relation_individual.html
+
+    Purpose:
+    Hosts the full Individual Relationship Analyzer interface.
+
+    Layout:
+    1) Left panel: analyst inputs (identity, uploads, observed traits, narrative sections)
+    2) Right panel: generated live preview report bound to left-panel values
+    3) Script boot: relation_individual.js handles all runtime behavior and exports
+
+    Integration:
+    - jsPDF/html2canvas are loaded from CDN for PDF/export workflows.
+    - Runtime syncing and compatibility logic live in relation_individual.js.
+  -->
   <!-- jsPDF & html2canvas CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -30,8 +45,8 @@
         <input id="reportDate" type="text" readonly /> 
         <!-- <input id="reportDate" type="text" value="September 13, 2025" /> -->
 
-        <label for="reportId">Report ID</label>
-        <input id="reportId" type="text" value="REL-2025-001" />
+        <!-- <label for="reportId">Report ID</label>
+        <input id="reportId" type="text" value="REL-2025-001" /> -->
 
       </div>
 
@@ -343,10 +358,10 @@
               <span id="r_date">September 13, 2025</span>
             </div>
           </div>
-          <div style="margin-top:10px">
+          <!-- <div style="margin-top:10px">
             <span class="info-label">Report ID:</span>
             <span id="r_id">REL-2025-001</span>
-          </div>
+          </div> -->
         </div>
 
         <!-- Section 1: Handwriting  -->
@@ -509,101 +524,5 @@
   </div>
 
   <script src="relation_individual.js"></script>
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("downloadHtml").addEventListener("click", async () => {
-    const previewArea = document.querySelector(".preview-area");
-
-    // 1️⃣ Grab all CSS from current page
-    const styles = Array.from(document.styleSheets)
-      .map(ss => {
-        try {
-          return Array.from(ss.cssRules).map(rule => rule.cssText).join('');
-        } catch {
-          return '';
-        }
-      })
-      .join('');
-
-    // 2️⃣ Clone preview and compress images to base64 JPEG
-    const clone = previewArea.cloneNode(true);
-    const images = clone.querySelectorAll("img");
-    for (const img of images) {
-      try {
-        const dataUrl = await toCompressedDataURL(img.src, 0.7); // 70% quality
-        img.src = dataUrl;
-      } catch (e) {
-        console.warn("Could not inline image", img.src, e);
-      }
-    }
-
-    // 3️⃣ Build full HTML with styles AND a print button
-    const htmlContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Relationship Analysis Snapshot</title>
-        <style>
-        ${styles}
-        /* style for the print button */
-        #printBtn {
-          display:inline-block;
-          padding:10px 15px;
-          margin:10px 0;
-          background:teal;
-          color:#fff;
-          border:none;
-          cursor:pointer;
-          font-size:16px;
-        }
-        </style>
-        </head>
-        <body>
-        
-        ${clone.outerHTML}
-        </body>
-        </html>`;
-
-    // 4️⃣ Download
-    const blob = new Blob([htmlContent], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    const filename = document.getElementById("r_name").textContent.trim().replace(/\s+/g, '_').toLowerCase() || "relationship_analysis";
-    a.href = url;
-    a.download = `${filename}.html`;   // no extra quotes, correct interpolation
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
-
-  // Convert an image URL to a compressed JPEG base64 string
-  async function toCompressedDataURL(url, quality = 0.7) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = function () {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        // JPEG at given quality
-        const dataUrl = canvas.toDataURL("image/jpeg", quality);
-        resolve(dataUrl);
-      };
-      img.onerror = reject;
-      img.src = url;
-    });
-  }
-});
-</script>
-
-
-
-   
-  
 </body>
 </html>

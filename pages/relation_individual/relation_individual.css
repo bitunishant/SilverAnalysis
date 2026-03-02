@@ -1,3 +1,19 @@
+/*
+ * relation_individual.css
+ *
+ * Purpose:
+ * Styling system for the Individual Relationship Analyzer page.
+ *
+ * Coverage:
+ * 1) Two-column app shell (controls + live report preview)
+ * 2) Form widgets for trait selection, uploads, and long-form notes
+ * 3) Report typography, section cards, compatibility components, and footer
+ * 4) Shared helper styles for muted text, spacing, and visual states
+ *
+ * Maintainer note:
+ * Keep base layout rules near top and domain-section styling grouped below.
+ */
+
 * {
     margin: 0;
     padding: 0;

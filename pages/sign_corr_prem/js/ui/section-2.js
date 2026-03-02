@@ -83,6 +83,7 @@ export function renderHandMistakeDescriptions(selectedTitles) {
   const store = globalThis.getHandMistakeStore();
   const category = document.getElementById("handCategory").value;
   const catalog = globalThis.getHandwritingCatalog();
+  const hiddenSelected = document.getElementById("handMistakes");
 
   container.innerHTML = "";
 
@@ -90,22 +91,88 @@ export function renderHandMistakeDescriptions(selectedTitles) {
     const block = document.createElement("div");
     block.className = "hmistake-desc-block";
 
-    const label = document.createElement("strong");
-    label.textContent = title;
+    let currentTitleKey = title;
+
+    const heading = document.createElement("input");
+    heading.type = "text";
+    heading.value = currentTitleKey;
+    heading.className = "editable-mistake-title";
 
     const textarea = document.createElement("textarea");
-    textarea.value = store[title] || catalog[category]?.[title] || "";
+    textarea.value = store[currentTitleKey] || catalog[category]?.[currentTitleKey] || "";
 
-    textarea.oninput = () => {
-      store[title] = textarea.value;
+    const saveBtn = document.createElement("button");
+    saveBtn.type = "button";
+    saveBtn.className = "save-desc-btn";
+    saveBtn.textContent = "Save";
+
+    const status = document.createElement("span");
+    status.className = "save-status";
+    status.style.marginLeft = "8px";
+
+    heading.onchange = () => {
+      const newTitle = heading.value.trim();
+      if (!newTitle || newTitle === currentTitleKey) return;
+
+      const categoryMap = catalog[category] || {};
+      categoryMap[newTitle] = categoryMap[currentTitleKey] || store[currentTitleKey] || "";
+      delete categoryMap[currentTitleKey];
+      catalog[category] = categoryMap;
+
+      if (Object.prototype.hasOwnProperty.call(store, currentTitleKey)) {
+        store[newTitle] = store[currentTitleKey];
+        delete store[currentTitleKey];
+      }
+
+      if (hiddenSelected) {
+        const selected = hiddenSelected.value
+          .split(",")
+          .map((v) => v.trim())
+          .filter(Boolean)
+          .map((v) => (v === currentTitleKey ? newTitle : v));
+        hiddenSelected.value = selected.join(", ");
+      }
+
+      currentTitleKey = newTitle;
+      globalThis.saveHandwritingCatalog(catalog);
       globalThis.saveHandMistakeStore(store);
       globalThis.applyFormToReport?.();
+
+      status.textContent = "Title Updated";
+      status.style.color = "#28a745";
+      setTimeout(() => {
+        status.textContent = "";
+      }, 1500);
     };
 
-    block.appendChild(label);
+    textarea.oninput = () => {
+      store[currentTitleKey] = textarea.value;
+      globalThis.saveHandMistakeStore(store);
+      globalThis.applyFormToReport?.();
+
+      status.textContent = "Unsaved changes";
+      status.style.color = "#d39e00";
+    };
+
+    saveBtn.onclick = () => {
+      store[currentTitleKey] = textarea.value;
+      globalThis.saveHandMistakeStore(store);
+      globalThis.applyFormToReport?.();
+
+      status.textContent = "Saved";
+      status.style.color = "#28a745";
+      setTimeout(() => {
+        status.textContent = "";
+      }, 1500);
+    };
+
+    block.appendChild(heading);
     block.appendChild(textarea);
+    block.appendChild(saveBtn);
+    block.appendChild(status);
     container.appendChild(block);
   });
 
   globalThis.applyFormToReport?.();
 }
+

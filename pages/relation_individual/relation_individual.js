@@ -1,3 +1,33 @@
+/**
+ * relation_individual.js
+ *
+ * Purpose:
+ * Runtime controller for the Individual Relationship Analyzer page.
+ *
+ * Section map:
+ * 1) Initialization:
+ *    - set current date in report metadata
+ *    - define trait interpretation dictionary
+ * 2) Input helpers:
+ *    - file upload previews
+ *    - trait selection extraction
+ * 3) Compatibility computation:
+ *    - derive compatible/incompatible partner type summaries
+ * 4) Preview synchronization:
+ *    - map left-panel inputs to right-panel report output
+ *    - render textarea content as bullet lists where needed
+ * 5) Utility actions:
+ *    - reset form to defaults
+ *    - PDF export
+ *    - HTML snapshot export
+ *    - preview-navigation helper
+ * 6) Event wiring + initial render
+ *
+ * Maintainer note:
+ * This file is currently monolithic. If extending significantly, split by feature
+ * modules (similar to relation_couple modular structure) to reduce merge conflicts.
+ */
+
  //Today's date
  const today = new Date();
  console.log(today);
@@ -49,7 +79,8 @@
    }
  };
 
- function handleImageUpload(input, type) {
+// ---------------- Section 2: Input Helpers ----------------
+function handleImageUpload(input, type) {
    const file = input.files[0];
    if (file) {
      const reader = new FileReader();
@@ -71,7 +102,7 @@ return Array.from(checkboxes).map(cb => ({ value: cb.value, textContent: cb.next
 }
 
 
-// updateCompatibility function 
+// ---------------- Section 3: Compatibility Summary ----------------
 function updateCompatibility() {
 const compatibleList = document.getElementById('r_compatible_list');
 const incompatibleList = document.getElementById('r_incompatible_list');
@@ -129,7 +160,8 @@ incompatibleList.innerHTML = incompatible.map(item => `<li>${item}</li>`).join('
 
 
 
- function applyToPreview() {
+// ---------------- Section 4: Preview Synchronization ----------------
+function applyToPreview() {
   // Update basic info
   document.getElementById('r_name').textContent = document.getElementById('userName').value;
   document.getElementById('r_age').textContent = document.getElementById('userAge').value;
@@ -207,8 +239,7 @@ incompatibleList.innerHTML = incompatible.map(item => `<li>${item}</li>`).join('
 
 
 
- // function updateTraitAnalyses() 
- function updateTraitAnalyses() {
+function updateTraitAnalyses() {
  const categories = [
  { containerId: 'emotionalSelect', listId: 'r_emotional_list', dataKey: 'emotional' },
  { containerId: 'communicationSelect', listId: 'r_communication_list', dataKey: 'communication' },
@@ -235,7 +266,8 @@ categories.forEach(category => {
 });
 }
 
- function resetForm() {
+// ---------------- Section 5: Utility Actions ----------------
+function resetForm() {
    // Reset form inputs
    document.getElementById('userName').value = 'Sarah Johnson';
    document.getElementById('userAge').value = '28';
@@ -264,59 +296,140 @@ categories.forEach(category => {
    applyToPreview();
  }
 
- async function downloadPDF() {
-   const { jsPDF } = window.jspdf;
-   const element = document.getElementById('reportRoot');
-   
-   try {
-     const canvas = await html2canvas(element, {
-       scale: 2,
-       useCORS: true,
-       allowTaint: true,
-       backgroundColor: '#ffffff'
-     });
-     
-     const imgData = canvas.toDataURL('image/png');
-     const pdf = new jsPDF('p', 'mm', 'a4');
-     
-     const imgWidth = 210;
-     const pageHeight = 295;
-     const imgHeight = (canvas.height * imgWidth) / canvas.width;
-     let heightLeft = imgHeight;
-     let position = 0;
-     
-     pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-     heightLeft -= pageHeight;
-     
-     while (heightLeft >= 0) {
-       position = heightLeft - imgHeight;
-       pdf.addPage();
-       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-       heightLeft -= pageHeight;
-     }
-     
-     const fileName = `Relationship_Analysis_${document.getElementById('userName').value.replace(/\s+/g, '_')}.pdf`;
-     pdf.save(fileName);
-   } catch (error) {
-     console.error('PDF generation error:', error);
-     alert('Error generating PDF. Please try again.');
-   }
- }
+async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const element = document.getElementById('reportRoot');
 
+  try {
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff'
+    });
 
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
 
- function previewPdf() {
+    const imgWidth = 210;
+    const pageHeight = 295;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    const fileName = `Relationship_Analysis_${document.getElementById('userName').value.replace(/\s+/g, '_')}.pdf`;
+    pdf.save(fileName);
+  } catch (error) {
+    console.error('PDF generation error:', error);
+    alert('Error generating PDF. Please try again.');
+  }
+}
+
+async function toCompressedDataURL(url, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = function () {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      resolve(canvas.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+async function downloadHtmlSnapshot() {
+  const previewArea = document.querySelector(".preview-area");
+  if (!previewArea) return;
+
+  const styles = Array.from(document.styleSheets)
+    .map((ss) => {
+      try {
+        return Array.from(ss.cssRules).map((rule) => rule.cssText).join("");
+      } catch {
+        return "";
+      }
+    })
+    .join("");
+
+  const clone = previewArea.cloneNode(true);
+  const images = clone.querySelectorAll("img");
+  for (const img of images) {
+    try {
+      img.src = await toCompressedDataURL(img.src, 0.7);
+    } catch (e) {
+      console.warn("Could not inline image", img.src, e);
+    }
+  }
+
+  const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relationship Analysis Snapshot</title>
+<style>
+${styles}
+#printBtn {
+  display:inline-block;
+  padding:10px 15px;
+  margin:10px 0;
+  background:teal;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  font-size:16px;
+}
+</style>
+</head>
+<body>
+${clone.outerHTML}
+</body>
+</html>`;
+
+  const blob = new Blob([htmlContent], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const nameEl = document.getElementById("r_name");
+  const filename = (nameEl?.textContent || "relationship_analysis")
+    .trim()
+    .replace(/\s+/g, "_")
+    .toLowerCase();
+
+  a.href = url;
+  a.download = `${filename}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function previewPdf() {
    // Scroll to top of preview to show full report
    const previewArea = document.querySelector('.preview-area');
    previewArea.scrollTop = 0;
    alert('Preview is shown in the right panel. Review your report and click "Download PDF" when ready.');
  }
 
- // Event listeners
+// ---------------- Section 6: Event Wiring + Initial Render ----------------
  document.getElementById('applyBtn').addEventListener('click', applyToPreview);
  document.getElementById('downloadPdf').addEventListener('click', downloadPDF);
  document.getElementById('previewPdf').addEventListener('click', previewPdf);
  document.getElementById('resetBtn').addEventListener('click', resetForm);
+ document.getElementById("downloadHtml")?.addEventListener("click", downloadHtmlSnapshot);
 
  // Image upload handlers
  document.getElementById('uploadSignature').addEventListener('change', function() {
