@@ -17,7 +17,7 @@ export function applyFormToReport() {
 
   setClientName("r_name", clientName);
   document.getElementById("r_date").textContent = reportDate;
-  document.getElementById("r_id").textContent = reportId;
+  // document.getElementById("r_id").textContent = reportId;
   setClientName("r_footer_name", clientName);
   setClientName("r_benefit_name", clientName);
   setClientName("r_overall_name", clientName);
