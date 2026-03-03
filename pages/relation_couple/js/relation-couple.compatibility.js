@@ -68,6 +68,20 @@ export function calculateCompatibilityScore(person1Traits, person2Traits) {
   return { score, level };
 }
 
+function getTraitLabel(containerId, traitValue) {
+  const container = document.getElementById(containerId);
+  if (!container) return traitValue;
+
+  const checkbox = container.querySelector(`input[type="checkbox"][value="${traitValue}"]`);
+  if (!checkbox) return traitValue;
+
+  const id = checkbox.getAttribute("id");
+  if (!id) return traitValue;
+
+  const label = container.querySelector(`label[for="${id}"]`);
+  return label?.textContent?.trim() || traitValue;
+}
+
 export function updateTraitAnalyses() {
   const person1Name =
     document.getElementById("person1Name")?.value || "Person 1";
@@ -91,29 +105,51 @@ export function updateTraitAnalyses() {
     if (p1Title) p1Title.textContent = `${person1Name}'s ${categoryName} Style`;
     if (p2Title) p2Title.textContent = `${person2Name}'s ${categoryName} Style`;
 
-    const updateTraitList = (traits, listId) => {
+    const updateTraitList = (traits, listId, containerId) => {
       const list = document.getElementById(listId);
       if (!list) return;
 
+      list.innerHTML = "";
+
       if (traits.length > 0) {
-        const analyses = traits
-          .map((trait) =>
-            TRAIT_DATA[category][trait]
-              ? `<li>${TRAIT_DATA[category][trait]}</li>`
-              : "",
-          )
-          .filter(Boolean);
-        list.innerHTML =
-          analyses.length > 0
-            ? analyses.join("")
-            : "<li>No analysis available</li>";
+        let hasRows = false;
+
+        traits.forEach((trait) => {
+          const analysis = TRAIT_DATA[category]?.[trait] || "";
+          const traitLabel = getTraitLabel(containerId, trait);
+
+          const li = document.createElement("li");
+          const strong = document.createElement("strong");
+          strong.textContent = `${traitLabel}: `;
+          li.appendChild(strong);
+          li.appendChild(
+            document.createTextNode(
+              analysis || "No analysis available for this trait",
+            ),
+          );
+
+          list.appendChild(li);
+          hasRows = true;
+        });
+
+        if (!hasRows) {
+          list.innerHTML = "<li>No analysis available</li>";
+        }
       } else {
         list.innerHTML = "<li>Select traits to see analysis</li>";
       }
     };
 
-    updateTraitList(person1Traits, `r_person1_${category}_list`);
-    updateTraitList(person2Traits, `r_person2_${category}_list`);
+    updateTraitList(
+      person1Traits,
+      `r_person1_${category}_list`,
+      `person1${categoryName}Select`,
+    );
+    updateTraitList(
+      person2Traits,
+      `r_person2_${category}_list`,
+      `person2${categoryName}Select`,
+    );
 
     const p1Notes = document.getElementById(`r_person1_${category}_notes`);
     const p2Notes = document.getElementById(`r_person2_${category}_notes`);

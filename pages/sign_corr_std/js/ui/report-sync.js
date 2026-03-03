@@ -49,7 +49,7 @@ export function applyFormToReport() {
   });
 
   const handwritingPreview = document.getElementById("r_handwritingMistakes");
-  handwritingPreview.innerHTML = "";
+  if (handwritingPreview) handwritingPreview.innerHTML = "";
 
   const selectedHandMistakes = (document.getElementById("handMistakes")?.value || "")
     .split(",")
@@ -60,7 +60,7 @@ export function applyFormToReport() {
   selectedHandMistakes.forEach((title, i) => {
     const p = document.createElement("p");
     p.innerHTML = `<strong>${i + 1}. ${title}</strong><br>${handStore[title] || ""}`;
-    handwritingPreview.appendChild(p);
+    if (handwritingPreview) handwritingPreview.appendChild(p);
   });
 
   const strengthsList = document.getElementById("r_strengths_list");
@@ -78,7 +78,7 @@ export function applyFormToReport() {
   });
 
   const handCorrectionsPreview = document.getElementById("r_handwritingCorrections");
-  handCorrectionsPreview.innerHTML = "";
+  if (handCorrectionsPreview) handCorrectionsPreview.innerHTML = "";
 
   document
     .querySelectorAll("#handCorrectionDescriptions .correction-desc-block")
@@ -90,7 +90,7 @@ export function applyFormToReport() {
 
       const p = document.createElement("p");
       p.innerHTML = `<strong>${i + 1}. ${titleText}</strong><br/>${descText}`;
-      handCorrectionsPreview.appendChild(p);
+      if (handCorrectionsPreview) handCorrectionsPreview.appendChild(p);
     });
 
   const weaknessesList = document.getElementById("r_weaknesses_list");
