@@ -42,13 +42,42 @@ function setupDownloadHtml() {
       }
     }
 
+    const responsiveFallbackCss = `
+/* Export-only responsive fallback so downloaded HTML works well on phones */
+img { max-width: 100%; height: auto; }
+@media (max-width: 900px) {
+  body { margin: 0; padding: 8px; }
+  .preview-area { padding: 10px !important; }
+  .header { padding: 24px 14px !important; }
+  .header h1 { font-size: clamp(1.5rem, 5vw, 2rem) !important; line-height: 1.25; }
+  .header p { font-size: clamp(0.95rem, 3.4vw, 1.1rem) !important; }
+  .client-info { padding: 18px 14px !important; }
+  .client-info h2 { font-size: clamp(1.25rem, 4.5vw, 1.6rem) !important; }
+  .info-grid, .personality-grid, .benefits-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .section { padding: 22px 14px !important; }
+  .section-title { font-size: clamp(1.3rem, 5.2vw, 1.8rem) !important; margin-bottom: 16px !important; }
+  .signature-box, .mistake-item, .benefit-card, .personality-card { padding: 14px !important; }
+  .practice-table { display: block !important; overflow-x: auto !important; white-space: nowrap !important; }
+  .footer { padding: 18px 14px !important; font-size: 0.92rem !important; }
+}
+@media (max-width: 480px) {
+  body { padding: 6px !important; }
+  .panel, .preview-area { padding: 10px !important; border-radius: 10px !important; }
+  .controls-row .btn { width: 100% !important; }
+  .info-item { display: block !important; }
+  .info-label { display: block !important; margin: 0 0 4px 0 !important; min-width: 0 !important; }
+  input[type="text"], textarea, select { font-size: 16px !important; }
+}`;
+
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Signature Report</title>
-<style>${styles}</style>
+<style>${styles}
+${responsiveFallbackCss}
+</style>
 </head>
 <body>${clone.outerHTML}</body>
 </html>`;
