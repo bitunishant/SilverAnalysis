@@ -371,18 +371,113 @@
     font-size: 0.9em;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     .app {
       grid-template-columns: 1fr;
       height: auto;
     }
 
-    .trait-analysis-grid,
-    .compatibility-section {
-      grid-template-columns: 1fr;
+    .panel {
+      padding: 16px;
+    }
+
+    .report-wrap {
+      max-width: none;
+      padding: 22px;
+    }
+
+    .section {
+      margin-bottom: 32px;
     }
 
     .info-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .panel {
+      padding: 12px;
+    }
+
+    .form-section {
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .report-wrap {
+      padding: 14px;
+      line-height: 1.5;
+    }
+
+    .header {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+    }
+
+    .header h1 {
+      font-size: 1.55em;
+    }
+
+    .header p {
+      font-size: 0.95em;
+    }
+
+    .client-info {
+      padding: 14px;
+      margin-bottom: 20px;
+    }
+
+    .client-info h2 {
+      font-size: 1.1em;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 1.08em;
+      margin-bottom: 12px;
+      letter-spacing: 0.4px;
+    }
+
+    /* Individual report should remain single-column on phones */
+    .trait-analysis-grid,
+    .compatibility-section,
+    .info-grid {
       grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    /* Keep label + value on the same line in phone view */
+    .info-item {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .info-label {
+      margin-right: 2px;
+      white-space: nowrap;
+    }
+
+    .trait-card,
+    .compatibility-card,
+    .personality-overview,
+    .suggestions-box {
+      padding: 14px;
+    }
+
+    .image-box {
+      min-height: 110px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+
+    .controls-row .btn {
+      width: 100%;
     }
   }
