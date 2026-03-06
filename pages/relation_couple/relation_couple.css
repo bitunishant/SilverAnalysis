@@ -476,14 +476,94 @@ input[type="file"] {
     height: auto;
   }
 
-  .compatibility-grid,
-  .couple-info,
-  .assessment-sections {
-    grid-template-columns: 1fr;
+  .panel {
+    padding: 16px;
   }
 
-  .info-grid,
-  .person-traits {
-    grid-template-columns: 1fr;
+  .report-wrap {
+    max-width: none;
+    padding: 20px;
+  }
+
+  .section {
+    margin-bottom: 42px;
+  }
+}
+
+@media (max-width: 768px) {
+  .panel {
+    padding: 12px;
+  }
+
+  .report-wrap {
+    padding: 14px;
+    line-height: 1.5;
+  }
+
+  .header {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+  }
+
+  .header h1 {
+    font-size: 1.55em;
+  }
+
+  .header p {
+    font-size: 0.95em;
+  }
+
+  .section {
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 1.1em;
+    margin-bottom: 14px;
+  }
+
+  /* Keep important comparison sections side-by-side with horizontal scroll */
+  .couple-info,
+  .person-traits,
+  .assessment-sections,
+  .compatibility-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 1fr);
+    gap: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    scroll-snap-type: x proximity;
+  }
+
+  .couple-info > *,
+  .person-traits > *,
+  .assessment-sections > *,
+  .compatibility-grid > * {
+    scroll-snap-align: start;
+  }
+
+  .person-info,
+  .trait-comparison,
+  .assessment-card,
+  .compatibility-card,
+  .suggestions-card,
+  .overall-analysis {
+    padding: 14px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .person-info h2 {
+    font-size: 1.1em;
+  }
+
+  .person-info h4 {
+    margin-top: 24px;
   }
 }
