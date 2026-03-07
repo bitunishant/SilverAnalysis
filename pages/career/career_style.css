@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
 * {
     margin: 0;
@@ -74,6 +74,38 @@ body {
 .form-group textarea {
     resize: vertical;
     min-height: 60px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Form Utility Controls (migrated from inline <style> in career.html)        */
+/* -------------------------------------------------------------------------- */
+/* Small helper button used to append new lines inside textarea fields. */
+.add-line-btn {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* Hover state for better affordance in editable form panel. */
+.add-line-btn:hover {
+    background-color: #45a049;
+}
+
+/* Wrapper used for dynamic title/description blocks in editable sections. */
+.hardcoded-input {
+    margin-bottom: 15px;
+}
+
+/* Label style inside dynamic hardcoded-input groups. */
+.hardcoded-input label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 700;
 }
 
 .career-section {
@@ -206,6 +238,15 @@ body {
     gap: 10px;
 }
 
+/* Keep Name and Age values on one logical line in candidate info block. */
+.name-age-inline {
+    display: block;
+}
+
+.age-inline-chunk {
+    display: block;
+}
+
 .info-item .icon {
     width: 20px;
     height: 20px;
@@ -246,6 +287,79 @@ body {
     justify-content: center;
     color: white;
     font-size: 16px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Report Section Inline-Style Replacements (migrated from career.html)       */
+/* -------------------------------------------------------------------------- */
+/* Shared italic explanatory note under section headings. */
+.section-note {
+    font-style: italic;
+    font-size: 1rem;
+    color: #555;
+    margin: 8px 0 20px;
+}
+
+/* Internal grid used inside recommendation card for growth details. */
+.recommendation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    text-align: left;
+}
+
+/* Recommendation sub-heading for growth path block. */
+.growth-heading {
+    color: #065f46;
+    margin-bottom: 10px;
+    font-size: 1.85rem;
+    font-weight: 700;
+}
+
+/* Remove extra margin for growth path list to keep compact card layout. */
+.growth-list {
+    margin: 0;
+    font-size: 1.6rem;
+    line-height: 1.55;
+}
+
+.growth-list li {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+/* Current role line in current-job-analysis block. */
+.current-role-line {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* Wrapper around recommendation bullets in current-job-analysis section. */
+.current-rec-wrap {
+    margin-top: 20px;
+}
+
+/* Fallback paragraph shown only when role-fit score is invalid/missing. */
+.recommendation-fallback {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* Left-aligned detail copy area inside viability cards. */
+.viability-detail {
+    text-align: left;
+}
+
+/* Reusable spacing variant for bullet lists that need bottom separation. */
+.bullet-list-spaced {
+    margin-bottom: 15px;
+}
+
+/* Highlight line for best-fit recommendation in business viability card. */
+.best-fit-line {
+    margin-top: 15px;
+    font-weight: 600;
+    color: #d97706;
 }
 
 .career-matches {
@@ -389,36 +503,41 @@ body {
 }
 
 .recommendation-card {
-    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    background: linear-gradient(135deg, #cfe5dc, #c3ddd2);
     border: 2px solid #10b981;
-    border-radius: 12px;
-    padding: 30px;
+    border-radius: 16px;
+    padding: 44px 28px 24px;
     text-align: center;
     position: relative;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.10);
 }
 
 .recommendation-card::before {
-    content: '⭐';
+    content: '\2605';
     position: absolute;
-    top: -10px;
+    top: -14px;
     left: 50%;
     transform: translateX(-50%);
     background: #10b981;
-    color: white;
-    width: 40px;
-    height: 40px;
+    color: #facc15;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 28px;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
 }
 
 .recommendation-title {
-    font-size: 1.8rem;
+    font-size: 3rem;
     color: #065f46;
-    margin-bottom: 15px;
+    line-height: 1.15;
+    margin: 0 0 18px;
     font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
 .viability-cards {
@@ -504,7 +623,7 @@ body {
 }
 
 .bullet-list li::before {
-    content: '▸';
+    content: '>';
     position: absolute;
     left: 0;
     color: #3b82f6;
@@ -535,3 +654,296 @@ body {
     display: none;
     z-index: 1000;
 }
+
+/* Responsive layout */
+@media (max-width: 1200px) {
+    body {
+        padding: 14px;
+    }
+
+    .main-container {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        min-height: auto;
+    }
+
+    .form-panel {
+        position: static;
+        max-height: none;
+        padding: 20px;
+    }
+
+    .preview-panel {
+        overflow: auto;
+    }
+
+    .report-container {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .report-container {
+        font-size: 0.85rem;
+    }
+
+    body {
+        padding: 10px;
+    }
+
+    .main-container {
+        gap: 10px;
+    }
+
+    .form-panel {
+        padding: 14px;
+        border-radius: 10px;
+    }
+
+    .form-panel h2 {
+        margin-bottom: 16px;
+        font-size: 1.2rem;
+    }
+
+    .preview-panel {
+        border-radius: 10px;
+    }
+
+    .header {
+        padding: 20px 14px;
+    }
+
+    .header h1 {
+        font-size: 1.58rem;
+        margin-bottom: 6px;
+    }
+
+    .header p {
+        font-size: 0.8rem;
+    }
+
+    .candidate-info {
+        padding: 16px 14px;
+    }
+
+    .candidate-info h2 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    /* Mobile: keep Name and Age in one line with spacing */
+    .name-age-inline {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 4px;
+        flex-wrap: wrap;
+    }
+
+    .age-inline-chunk {
+        margin-left: 12px;
+        white-space: nowrap;
+    }
+
+    .section {
+        padding: 20px 14px;
+    }
+
+    .section h2 {
+        font-size: 1.16rem;
+        margin-bottom: 16px;
+        gap: 8px;
+    }
+
+    /* Keep explanatory notes compact but readable on phone. */
+    .section-note {
+        font-size: 0.9rem;
+        margin: 6px 0 14px;
+    }
+
+    .section-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 12px;
+        border-radius: 6px;
+    }
+
+    .career-card,
+    .trait-card,
+    .improvement-item,
+    .Personalizedq-item,
+    .recommendation-card,
+    .viability-card,
+    .current-job-analysis {
+        padding: 14px;
+    }
+
+    .career-title {
+        font-size: 0.98rem;
+        margin-right: 42px;
+    }
+
+    .career-rank {
+        top: 10px;
+        right: 10px;
+        padding: 4px 9px;
+        font-size: 0.78rem;
+    }
+
+    .traits-grid,
+    .viability-cards,
+    .analysis-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .recommendation-title {
+        font-size: 2.25rem;
+    }
+
+    .recommendation-card {
+        padding: 38px 16px 16px;
+    }
+
+    /* Keep fallback guidance text in proportion with reduced mobile typography. */
+    .recommendation-fallback,
+    .current-role-line {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .recommendation-card::before {
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 44px;
+        height: 44px;
+        font-size: 23px;
+    }
+
+    .viability-score {
+        font-size: 2.05rem;
+    }
+
+    .viability-title {
+        font-size: 0.98rem;
+    }
+
+    .info-item,
+    .trait-card p,
+    .improvement-item p,
+    .Personalizedq-item p,
+    .current-job-analysis p,
+    .analysis-item,
+    .viability-card,
+    .form-group label {
+        font-size: 0.84rem;
+    }
+
+    .confidence-score,
+    .range-value {
+        font-size: 0.82rem;
+    }
+
+    .bullet-list li {
+        padding: 5px 0 5px 20px;
+        font-size: 0.8rem;
+    }
+
+    .btn {
+        margin-top: 12px;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .report-container {
+        font-size: 0.8rem;
+    }
+
+    .header h1 {
+        font-size: 1.34rem;
+    }
+
+    .section h2 {
+        font-size: 1.02rem;
+    }
+
+    .candidate-info h2 {
+        font-size: 0.98rem;
+    }
+
+    .recommendation-title {
+        font-size: 1.7rem;
+    }
+
+    .section-note {
+        font-size: 0.84rem;
+        margin: 5px 0 10px;
+    }
+
+    .recommendation-fallback,
+    .current-role-line {
+        font-size: 0.84rem;
+    }
+
+    .recommendation-card {
+        padding: 34px 14px 14px;
+    }
+
+    .recommendation-card::before {
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 38px;
+        height: 38px;
+        font-size: 19px;
+    }
+
+    .growth-heading {
+        font-size: 1.08rem;
+        margin-bottom: 8px;
+    }
+
+    .growth-list {
+        font-size: 0.94rem;
+        line-height: 1.45;
+    }
+
+    .viability-score {
+        font-size: 1.75rem;
+    }
+
+    .analysis-score {
+        font-size: 1.48rem;
+    }
+
+    .info-item,
+    .trait-card p,
+    .improvement-item p,
+    .Personalizedq-item p,
+    .current-job-analysis p,
+    .analysis-item,
+    .viability-card,
+    .recommendation-card,
+    .form-group label,
+    .confidence-score,
+    .range-value {
+        font-size: 0.78rem;
+    }
+
+    .bullet-list li {
+        font-size: 0.76rem;
+    }
+
+    .footer {
+        padding: 20px 14px;
+        font-size: 0.85rem;
+    }
+}
+
