@@ -1,334 +1,406 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Analysis Tool </title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Career Analysis Tool</title>
     <!-- jsPDF & html2canvas CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link rel="stylesheet" href="career_tool_new.css">
-</head>
+    <link rel="stylesheet" href="career_tool_new.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <!-- Left Panel - Input Forms -->
-        <div class="left-panel">
-            <div class="panel-header">
-                Career Analysis Input Panel
-            </div>
+      <!-- Left Panel - Input Forms -->
+      <div class="left-panel">
+        <div class="panel-header">Career Analysis Input Panel</div>
 
-            <!-- User Details Section -->
-            <div class="section">
-                <div class="section-title">User Details</div>
-                <div class="form-group">
-                    <label for="userName">Full Name</label>
-                    <input type="text" id="userName" placeholder="Enter full name">
-                </div>
-                <div class="form-group">
-                    <label for="userAge">Age</label>
-                    <input type="number" id="userAge" placeholder="Enter age">
-                </div>
-                <div class="form-group">
-                    <label for="userEducation">Educational Background</label>
-                    <input type="text" id="userEducation" placeholder="Enter educational background">
-                </div>
-                <div class="form-group">
-                    <label for="reportDate">Analysis Date</label>
-                    <input id="reportDate" type="text" readonly />
-                </div>
-                <!-- <div class="form-group">
+        <!-- User Details Section -->
+        <div class="section">
+          <div class="section-title">User Details</div>
+          <div class="form-group">
+            <label for="userName">Full Name</label>
+            <input type="text" id="userName" placeholder="Enter full name" />
+          </div>
+          <div class="form-group">
+            <label for="userAge">Age</label>
+            <input type="number" id="userAge" placeholder="Enter age" />
+          </div>
+          <div class="form-group">
+            <label for="userEducation">Educational Background</label>
+            <input
+              type="text"
+              id="userEducation"
+              placeholder="Enter educational background"
+            />
+          </div>
+          <div class="form-group">
+            <label for="reportDate">Analysis Date</label>
+            <input id="reportDate" type="text" readonly />
+          </div>
+          <!-- <div class="form-group">
                     <label for="reportId">Report ID</label>
                     <input id="reportId" type="text" value="CAREER-2025-001" />
                 </div> -->
+        </div>
+
+        <!-- Image Uploads Section -->
+        <div class="section">
+          <div class="section-title">Upload Images</div>
+          <div class="form-group">
+            <label>Signature Image</label>
+            <div
+              class="file-upload"
+              onclick="document.getElementById('signatureUpload').click()"
+            >
+              <input type="file" id="signatureUpload" accept="image/*" />
+              Click to upload signature image
             </div>
-
-            <!-- Image Uploads Section -->
-            <div class="section">
-                <div class="section-title">Upload Images</div>
-                <div class="form-group">
-                    <label>Signature Image</label>
-                    <div class="file-upload" onclick="document.getElementById('signatureUpload').click()">
-                        <input type="file" id="signatureUpload" accept="image/*">
-                        Click to upload signature image
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Handwriting Sample</label>
-                    <div class="file-upload" onclick="document.getElementById('handwritingUpload').click()">
-                        <input type="file" id="handwritingUpload" accept="image/*">
-                        Click to upload handwriting image
-                    </div>
-                </div>
+          </div>
+          <div class="form-group">
+            <label>Handwriting Sample</label>
+            <div
+              class="file-upload"
+              onclick="document.getElementById('handwritingUpload').click()"
+            >
+              <input type="file" id="handwritingUpload" accept="image/*" />
+              Click to upload handwriting image
             </div>
+          </div>
+        </div>
 
-            <!-- Personality Keywords Section -->
-            <div class="section">
-                <div class="section-title">Personality Traits</div>
-                <div class="form-group">
-                    <label for="strengths">Strengths (comma separated)</label>
-                    <div class="tag-input-wrapper">
-                    <div id="strengthsTagContainer" class="tag-container"></div>
-                    <input type="text" id="strengthsInput" placeholder="Type to search...">
-                    <div id="strengthsDropdown" class="dropdown"></div>
-                </div>
-                <textarea id="strengths" style="display:none;"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="weaknesses">Weaknesses (comma separated)</label>
-                    <div class="tag-input-wrapper">
-                    <div id="weaknessesTagContainer" class="tag-container"></div>
-                    <input type="text" id="weaknessesInput" placeholder="Type to search...">
-                    <div id="weaknessesDropdown" class="dropdown"></div>
-                </div>
-                <textarea id="weaknesses" style="display:none;"></textarea>
-                </div>
+        <!-- Personality Keywords Section -->
+        <div class="section">
+          <div class="section-title">Personality Traits</div>
+          <div class="form-group">
+            <label for="strengths">Strengths (comma separated)</label>
+            <div class="tag-input-wrapper">
+              <div id="strengthsTagContainer" class="tag-container"></div>
+              <input
+                type="text"
+                id="strengthsInput"
+                placeholder="Type to search..."
+              />
+              <div id="strengthsDropdown" class="dropdown"></div>
             </div>
-
-            <!-- Handwriting Analysis Quiz -->
-            <div class="section">
-                <div class="section-title">Handwriting Analysis Quiz</div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>ZONES</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="upper-zone" data-domains="technical,medical,finance,law">
-                            <label for="upper-zone">Upper zone</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="mid-zone" data-domains="defense,marketing,law,teaching">
-                            <label for="mid-zone">Mid zone</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="lower-zone" data-domains="marketing,creative,teaching">
-                            <label for="lower-zone">Lower zone</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>PRESSURE</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="high-pressure" data-domains="defense,marketing,creative,law">
-                            <label for="high-pressure">High</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="mid-pressure" data-domains="technical,finance,teaching">
-                            <label for="mid-pressure">Mid</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="low-pressure" data-domains="">
-                            <label for="low-pressure">Low</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>SLOPE</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="upward-slope"
-                                data-domains="technical,finance,marketing,creative">
-                            <label for="upward-slope">Upwards</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="constant-slope" data-domains="medical,defense,teaching,law">
-                            <label for="constant-slope">Constant</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="downward-slope" data-domains="">
-                            <label for="downward-slope-slope">Downward</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>SLANT</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="straight-slant"
-                                data-domains="technical,medical,finance,defense,law">
-                            <label for="straight-slant">Straight</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="right-inclined" data-domains="marketing,creative,teaching">
-                            <label for="right-inclined">Right inclined</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="left-inclined" data-domains="">
-                            <label for="left-inclined">Left inclined</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>VALIDATION</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="validation_yes" data-domains="marketing,creative,teaching">
-                            <label for="validation_yes">Yes</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="validation_no" data-domains="">
-                            <label for="validation_no">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>TWO DOTS</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="two_dots_yes" data-domains="marketing,creative,teaching">
-                            <label for="two_dots_yes">Yes</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="two_dots_no" data-domains="">
-                            <label for="two_dots_no">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>SINGLE STROKE</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="single_stroke_yes" data-domains="medical,defense,marketing">
-                            <label for="single_stroke_yes">Yes</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="single_stroke_no" data-domains="">
-                            <label for="single_stroke_no">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>FIRST LETTER BIG AND BOLD</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="big_bold_yes" data-domains="medical,defense,marketing,law">
-                            <label for="big_bold_yes">Yes</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="big_bold_no" data-domains="">
-                            <label for="big_bold_no">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>SPEED</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="speed_clear" data-domains="teaching">
-                            <label for="speed_clear">Clear</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="speed_unclear"
-                                data-domains="technical,finance,marketing,creative,law">
-                            <label for="speed_unclear">Unclear</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>LOOPS</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="loop_yes" data-domains="defense">
-                            <label for="loop_yes">Yes</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="loop_no" data-domains="">
-                            <label for="loop_no">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>GOVERNMENT JOB VIABILITY</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="Surname_in_sign" data-domains="">
-                            <label for="Surname_in_sign">Surname in Signature</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="sign_slope_10" data-domains="">
-                            <label for="sign_slope_10">Slope of sign is 0-10 degree</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="small_dot" data-domains="">
-                            <label for="small_dot">Small dot over "i"</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="category">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <span>BUSINESS POSSIBILITY</span>
-                        <span class="collapse-icon">▼</span>
-                    </div>
-                    <div class="category-content">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="slope_min_30" data-domains="">
-                            <label for="slope_min_30">Minimum 30 degree slope of signature</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="slope_min_30_no" data-domains="">
-                            <label for="slope_min_30_no">No</label>
-                        </div>
-                    </div>
-                </div>
+            <textarea id="strengths" style="display: none"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="weaknesses">Weaknesses (comma separated)</label>
+            <div class="tag-input-wrapper">
+              <div id="weaknessesTagContainer" class="tag-container"></div>
+              <input
+                type="text"
+                id="weaknessesInput"
+                placeholder="Type to search..."
+              />
+              <div id="weaknessesDropdown" class="dropdown"></div>
             </div>
+            <textarea id="weaknesses" style="display: none"></textarea>
+          </div>
+        </div>
 
-            <!-- Career Domains Section -->
-            <div class="section">
-                <div class="section-title">Top 3 Career Recommendations</div>
-                <div id="career-domains-container">
+        <!-- Handwriting Analysis Quiz -->
+        <div class="section">
+          <div class="section-title">Handwriting Analysis Quiz</div>
 
-                    <!-- Career domains will be populated here -->
-                </div>
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>ZONES</span>
+              <span class="collapse-icon">▼</span>
             </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="upper-zone"
+                  data-domains="technical,medical,finance,law"
+                />
+                <label for="upper-zone">Upper zone</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="mid-zone"
+                  data-domains="defense,marketing,law,teaching"
+                />
+                <label for="mid-zone">Mid zone</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="lower-zone"
+                  data-domains="marketing,creative,teaching"
+                />
+                <label for="lower-zone">Lower zone</label>
+              </div>
+            </div>
+          </div>
 
-            <!-- Additional Analysis Sections -->
-            <!-- <div class="section">
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>PRESSURE</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="high-pressure"
+                  data-domains="defense,marketing,creative,law"
+                />
+                <label for="high-pressure">High</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="mid-pressure"
+                  data-domains="technical,finance,teaching"
+                />
+                <label for="mid-pressure">Mid</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="low-pressure" data-domains="" />
+                <label for="low-pressure">Low</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>SLOPE</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="upward-slope"
+                  data-domains="technical,finance,marketing,creative"
+                />
+                <label for="upward-slope">Upwards</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="constant-slope"
+                  data-domains="medical,defense,teaching,law"
+                />
+                <label for="constant-slope">Constant</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="downward-slope" data-domains="" />
+                <label for="downward-slope-slope">Downward</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>SLANT</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="straight-slant"
+                  data-domains="technical,medical,finance,defense,law"
+                />
+                <label for="straight-slant">Straight</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="right-inclined"
+                  data-domains="marketing,creative,teaching"
+                />
+                <label for="right-inclined">Right inclined</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="left-inclined" data-domains="" />
+                <label for="left-inclined">Left inclined</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>VALIDATION</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="validation_yes"
+                  data-domains="marketing,creative,teaching"
+                />
+                <label for="validation_yes">Yes</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="validation_no" data-domains="" />
+                <label for="validation_no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>TWO DOTS</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="two_dots_yes"
+                  data-domains="marketing,creative,teaching"
+                />
+                <label for="two_dots_yes">Yes</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="two_dots_no" data-domains="" />
+                <label for="two_dots_no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>SINGLE STROKE</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="single_stroke_yes"
+                  data-domains="medical,defense,marketing"
+                />
+                <label for="single_stroke_yes">Yes</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="single_stroke_no" data-domains="" />
+                <label for="single_stroke_no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>FIRST LETTER BIG AND BOLD</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="big_bold_yes"
+                  data-domains="medical,defense,marketing,law"
+                />
+                <label for="big_bold_yes">Yes</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="big_bold_no" data-domains="" />
+                <label for="big_bold_no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>SPEED</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="speed_clear"
+                  data-domains="teaching"
+                />
+                <label for="speed_clear">Clear</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="speed_unclear"
+                  data-domains="technical,finance,marketing,creative,law"
+                />
+                <label for="speed_unclear">Unclear</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>LOOPS</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input type="checkbox" id="loop_yes" data-domains="defense" />
+                <label for="loop_yes">Yes</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="loop_no" data-domains="" />
+                <label for="loop_no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>GOVERNMENT JOB VIABILITY</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input type="checkbox" id="Surname_in_sign" data-domains="" />
+                <label for="Surname_in_sign">Surname in Signature</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="sign_slope_10" data-domains="" />
+                <label for="sign_slope_10">Slope of sign is 0-10 degree</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="small_dot" data-domains="" />
+                <label for="small_dot">Small dot over "i"</label>
+              </div>
+            </div>
+          </div>
+          <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+              <span>BUSINESS POSSIBILITY</span>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="category-content">
+              <div class="checkbox-item">
+                <input type="checkbox" id="slope_min_30" data-domains="" />
+                <label for="slope_min_30"
+                  >Minimum 30 degree slope of signature</label
+                >
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="slope_min_30_no" data-domains="" />
+                <label for="slope_min_30_no">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Career Domains Section -->
+        <div class="section">
+          <div class="section-title">Top 3 Career Recommendations</div>
+          <div id="career-domains-container">
+            <!-- Career domains will be populated here -->
+          </div>
+        </div>
+
+        <!-- Additional Analysis Sections -->
+        <!-- <div class="section">
                 <div class="section-title">Current Job Analysis</div>
                 <div class="form-group">
                     <label for="currentJobTitle">Current Job Title</label>
@@ -338,118 +410,191 @@
                 </div>
             </div> -->
 
-            <div class="section">
-                <div class="section-title">Current Job Analysis</div>
-                <div class="form-group">
-                    <label for="currentJobTitle">Current Job Title</label>
-                    <input type="text" id="currentJobTitle" placeholder="Enter current job title">
+        <div class="section">
+          <div class="section-title">Current Job Analysis</div>
+          <div class="form-group">
+            <label for="currentJobTitle">Current Job Title</label>
+            <input
+              type="text"
+              id="currentJobTitle"
+              placeholder="Enter current job title"
+            />
 
-                    <label for="currJobSuitabilityPointers">Current Job Compatibility Pointers (Input for the LLM)</label>
-                    <input type="text" id="currJobSuitabilityPointers"
-                        placeholder="Enter Current Job Compatibility Pointers here">
+            <label for="currJobSuitabilityPointers"
+              >Current Job Compatibility Pointers (Input for the LLM)</label
+            >
+            <input
+              type="text"
+              id="currJobSuitabilityPointers"
+              placeholder="Enter Current Job Compatibility Pointers here"
+            />
 
-                    <label for="currentJob">Current Job Compatibility</label>
-                    <textarea id="currentJob"
-                        placeholder="Enter job compatibility (comma separated or one per line)"></textarea>
-                        
-                        <button id="currentBtn" class="btn btn-primary llm-btn" onclick="runLLM('CURRENT')">Generate</button>
-                        <span id="currentLoader" class="loader" style="display:none;"></span>
-                </div>
-            </div>
+            <label for="currentJob">Current Job Compatibility</label>
+            <textarea
+              id="currentJob"
+              placeholder="Enter job compatibility (comma separated or one per line)"
+            ></textarea>
 
-
-
-            <div class="section">
-                <div class="section-title">Government Job Suitability</div>
-                <div class="form-group">
-                    <label for="govJobSuitabilityLevel">Government Suitability Level</label>
-                    <input type="text" id="govJobSuitabilityLevel"
-                        placeholder="Enter Government Suitability Level : Low/ Moderate/ High">
-
-                        <label for="govJobSuitabilityPointers">Gov Job Suitability Pointers (Input for the LLM)</label>
-                    <input type="text" id="govJobSuitabilityPointers"
-                        placeholder="Enter Government Job Suitability Pointers here">
-
-                    <label> Analysis of Government Suitability </label>
-                    <textarea id="govJobSuitability"
-                        placeholder="Enter analysis of government job suitability..."></textarea>
-                        
-                        <button id="govBtn" class="btn btn-primary llm-btn" onclick="runLLM('GOV')">Generate</button>
-                        <span id="govLoader" class="loader" style="display:none;"></span>
-
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Business Possibility</div>
-                <div class="form-group">
-                    <label for="businessSuitabilityLevel">Business Suitability Level</label>
-                    <input type="text" id="businessSuitabilityLevel"
-                        placeholder="Enter Business Suitability Level : Low/ Moderate/ High">
-
-                        <label for="businessSuitabilityPointers">Business Suitability Pointers (Input for the LLM)</label>
-                    <input type="text" id="businessSuitabilityPointers"
-                        placeholder="Enter Business Suitability Pointers here">
-
-                    <label> Analysis of Business Suitability </label>
-                    <textarea id="businessPossibility"
-                        placeholder="Analysis of business possibilities..."></textarea>
-                        
-                        <button id="businessBtn" class="btn btn-primary llm-btn" onclick="runLLM('BUSINESS')">Generate</button>
-                        <span id="businessLoader" class="loader" style="display:none;"></span>
-
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Overall Recommendation</div>
-                <div class="form-group">
-                    <textarea id="overallRecommendation"
-                        placeholder="Enter overall recommendation from Explormee..."></textarea>
-                </div>
-            </div>
-
-            <!-- Controls -->
-            <div class="controls-row">
-                <button id="applyBtn" class="btn btn-primary" onclick="updatePreview()">Apply to Preview</button>
-                <!-- Add this button next to your other controls -->
-                <button id="downloadHtml" class="btn btn-primary">Download HTML</button>
-
-                <button id="resetBtn" class="btn btn-ghost" onclick="resetForm()">Reset</button>
-            </div>
+            <button
+              id="currentBtn"
+              class="btn btn-primary llm-btn"
+              onclick="runLLM('CURRENT')"
+            >
+              Generate
+            </button>
+            <span
+              id="currentLoader"
+              class="loader"
+              style="display: none"
+            ></span>
+          </div>
         </div>
 
-        <!-- Right Panel - Professional Report Preview -->
-        <div class="right-panel">
-            <div id="reportRoot" class="report-wrap">
-                <!-- Header -->
-                <div class="header">
-                    <h1>Career Analysis Report</h1>
-                    <p>Professional Graphological Career Assessment</p>
-                </div>
+        <div class="section">
+          <div class="section-title">Government Job Suitability</div>
+          <div class="form-group">
+            <label for="govJobSuitabilityLevel"
+              >Government Suitability Level</label
+            >
+            <input
+              type="text"
+              id="govJobSuitabilityLevel"
+              placeholder="Enter Government Suitability Level : Low/ Moderate/ High"
+            />
 
-                <!-- Section 1: User Information -->
-                <div class="report-section">
-                    <h2 class="report-section-title">1. Personal Information</h2>
+            <label for="govJobSuitabilityPointers"
+              >Gov Job Suitability Pointers (Input for the LLM)</label
+            >
+            <input
+              type="text"
+              id="govJobSuitabilityPointers"
+              placeholder="Enter Government Job Suitability Pointers here"
+            />
 
-                    <div class="user-details-grid">
-                        <div class="detail-item">
-                            <span class="detail-label">Full Name:</span>
-                            <span class="detail-value" id="r_user_name">Not provided</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Age:</span>
-                            <span class="detail-value" id="r_user_age">Not provided</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Education:</span>
-                            <span class="detail-value" id="r_user_education">Not provided</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Analysis Date:</span>
-                            <span class="detail-value" id="r_report_date">Not provided</span>
-                        </div>
-                        <!-- <div class="detail-item">
+            <label> Analysis of Government Suitability </label>
+            <textarea
+              id="govJobSuitability"
+              placeholder="Enter analysis of government job suitability..."
+            ></textarea>
+
+            <button
+              id="govBtn"
+              class="btn btn-primary llm-btn"
+              onclick="runLLM('GOV')"
+            >
+              Generate
+            </button>
+            <span id="govLoader" class="loader" style="display: none"></span>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Business Possibility</div>
+          <div class="form-group">
+            <label for="businessSuitabilityLevel"
+              >Business Suitability Level</label
+            >
+            <input
+              type="text"
+              id="businessSuitabilityLevel"
+              placeholder="Enter Business Suitability Level : Low/ Moderate/ High"
+            />
+
+            <label for="businessSuitabilityPointers"
+              >Business Suitability Pointers (Input for the LLM)</label
+            >
+            <input
+              type="text"
+              id="businessSuitabilityPointers"
+              placeholder="Enter Business Suitability Pointers here"
+            />
+
+            <label> Analysis of Business Suitability </label>
+            <textarea
+              id="businessPossibility"
+              placeholder="Analysis of business possibilities..."
+            ></textarea>
+
+            <button
+              id="businessBtn"
+              class="btn btn-primary llm-btn"
+              onclick="runLLM('BUSINESS')"
+            >
+              Generate
+            </button>
+            <span
+              id="businessLoader"
+              class="loader"
+              style="display: none"
+            ></span>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Overall Recommendation</div>
+          <div class="form-group">
+            <textarea
+              id="overallRecommendation"
+              placeholder="Enter overall recommendation from Explormee..."
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls-row">
+          <button
+            id="applyBtn"
+            class="btn btn-primary"
+            onclick="updatePreview()"
+          >
+            Apply to Preview
+          </button>
+          <!-- Add this button next to your other controls -->
+          <button id="downloadHtml" class="btn btn-primary">
+            Download HTML
+          </button>
+
+          <button id="resetBtn" class="btn btn-ghost" onclick="resetForm()">
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Panel - Professional Report Preview -->
+      <div class="right-panel">
+        <div id="reportRoot" class="report-wrap">
+          <!-- Header -->
+          <div class="header">
+            <h1>Career Analysis Report</h1>
+            <p>Professional Graphological Career Assessment</p>
+          </div>
+
+          <!-- Section 1: User Information -->
+          <div class="report-section">
+            <h2 class="report-section-title">1. Personal Information</h2>
+
+            <div class="user-details-grid">
+              <div class="detail-item">
+                <span class="detail-label">Full Name:</span>
+                <span class="detail-value" id="r_user_name">Not provided</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Age:</span>
+                <span class="detail-value" id="r_user_age">Not provided</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Education:</span>
+                <span class="detail-value" id="r_user_education"
+                  >Not provided</span
+                >
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Analysis Date:</span>
+                <span class="detail-value" id="r_report_date"
+                  >Not provided</span
+                >
+              </div>
+              <!-- <div class="detail-item">
                             <span class="detail-label">Report ID:</span>
                             <span class="detail-value" id="r_report_id">CAREER-2025-001</span>
                         </div>
@@ -457,61 +602,79 @@
                             <span class="detail-label">Current Position:</span>
                             <span class="detail-value" id="r_current_job">Not provided</span>
                         </div> -->
-                    </div>
+            </div>
 
-                    <div class="image-section">
-                        <h4>Signature Analysis</h4>
-                        <div id="r_signature_box" class="image-box">
-                            <img id="r_signature_img" class="report-img" src="" alt="Signature" style="display:none;" />
-                            <div id="r_signature_placeholder" class="image-placeholder">No signature uploaded</div>
-                        </div>
+            <div class="image-section">
+              <h4>Signature Analysis</h4>
+              <div id="r_signature_box" class="image-box">
+                <img
+                  id="r_signature_img"
+                  class="report-img"
+                  src=""
+                  alt="Signature"
+                  style="display: none"
+                />
+                <div id="r_signature_placeholder" class="image-placeholder">
+                  No signature uploaded
+                </div>
+              </div>
 
-                        <h4>Handwriting Analysis</h4>
-                        <div id="r_handwriting_box" class="image-box">
-                            <img id="r_handwriting_img" class="report-img" src="" alt="Handwriting Sample"
-                                style="display:none;" />
-                            <div id="r_handwriting_placeholder" class="image-placeholder">No handwriting sample uploaded
-                            </div>
-                        </div>
-                    </div>
+              <h4>Handwriting Analysis</h4>
+              <div id="r_handwriting_box" class="image-box">
+                <img
+                  id="r_handwriting_img"
+                  class="report-img"
+                  src=""
+                  alt="Handwriting Sample"
+                  style="display: none"
+                />
+                <div id="r_handwriting_placeholder" class="image-placeholder">
+                  No handwriting sample uploaded
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Personality Analysis -->
+          <div class="report-section">
+            <h2 class="report-section-title">2. Personality Trait Analysis</h2>
+
+            <div class="trait-analysis">
+              <div class="trait-title">
+                Professional Strengths & Development Areas
+              </div>
+
+              <div class="trait-content">
+                <div class="strengths-section">
+                  <h5>Key Strengths</h5>
+                  <div class="keyword-tags" id="r_strengths_tags">
+                    <div class="empty-state">No strengths provided</div>
+                  </div>
                 </div>
 
-                <!-- Section 2: Personality Analysis -->
-                <div class="report-section">
-                    <h2 class="report-section-title">2. Personality Trait Analysis</h2>
-
-                    <div class="trait-analysis">
-                        <div class="trait-title">Professional Strengths & Development Areas</div>
-
-                        <div class="trait-content">
-                            <div class="strengths-section">
-                                <h5>Key Strengths</h5>
-                                <div class="keyword-tags" id="r_strengths_tags">
-                                    <div class="empty-state">No strengths provided</div>
-                                </div>
-                            </div>
-
-                            <div class="weaknesses-section">
-                                <h5>Development Areas</h5>
-                                <div class="keyword-tags" id="r_weaknesses_tags">
-                                    <div class="empty-state">No development areas provided</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="weaknesses-section">
+                  <h5>Development Areas</h5>
+                  <div class="keyword-tags" id="r_weaknesses_tags">
+                    <div class="empty-state">No development areas provided</div>
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <!-- Section 3: Career Recommendations -->
-                <div class="report-section">
-                    <h2 class="report-section-title">3. Top Career Recommendations</h2>
+          <!-- Section 3: Career Recommendations -->
+          <div class="report-section">
+            <h2 class="report-section-title">3. Top Career Recommendations</h2>
 
-                    <div class="career-recommendations" id="r_career_recommendations">
-                        <div class="empty-state">Complete the handwriting analysis quiz to see personalized career
-                            recommendations</div>
-                    </div>
-                </div>
+            <div class="career-recommendations" id="r_career_recommendations">
+              <div class="empty-state">
+                Complete the handwriting analysis quiz to see personalized
+                career recommendations
+              </div>
+            </div>
+          </div>
 
-                <!-- Section 4: Specialized Analysis
+          <!-- Section 4: Specialized Analysis
                 <div class="report-section">
                     <h2 class="report-section-title">4. Specialized Career Analysis</h2>
 
@@ -546,169 +709,80 @@
                     </div>
                 </div> -->
 
-                <!-- Section 4: Specialized Career Analysis -->
-                <div class="report-section">
-                    <h2 class="report-section-title">4. Specialized Career Analysis</h2>
+          <!-- Section 4: Specialized Career Analysis -->
+          <div class="report-section">
+            <h2 class="report-section-title">4. Specialized Career Analysis</h2>
 
-                    <!-- Current Job Compatibility -->
-                    <div class="analysis-card">
-                        <h4>Current Job Compatibility</h4>
-                        <div class="detail_label_title">
-                            <span>Currently Pursuing:</span>
-                            <span id="r_current_job_title">Not provided</span>
-                        </div>
-                        <p id="r_current_job_compatibility">
-                            No analysis provided. Please complete the assessment form for detailed insights.
-                        </p>
-                    </div>
-
-                    <!-- Government Job Suitability -->
-                    <div class="analysis-card">
-                        <h4>Government Job Suitability</h4>
-                        <div class="detail_label_title">
-                            <span>Government Job Suitability Level: </span>
-                            <span id="r_gov_job_suitability_level">Not provided</span>
-                        </div>
-                        <p id="r_gov_job_analysis">
-                            No analysis provided. Please complete the assessment form for detailed insights.
-                        </p>
-                    </div>
-
-                    <!-- Business & Entrepreneurship Potential -->
-                    <div class="analysis-card">
-                        <h4>Business & Entrepreneurship Potential</h4>
-                        <div class="detail_label_title">
-                            <span>Business Viability Level: </span>
-                            <span id="r_business_suitability_level">Not provided</span>
-                        </div>
-                        <p id="r_business_analysis">
-                            No analysis provided. Please complete the assessment form for detailed insights.
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <!-- Section 5: Professional Recommendations -->
-                <div class="report-section">
-                    <h2 class="report-section-title">5. Overall Recommendation for <span name='r_client_name'></span>
-                    </h2>
-
-                    <div class="analysis-card">
-                        <h4>Expert Career Guidance</h4>
-                        <p id="r_overall_recommendation">Complete your assessment to receive personalized career
-                            guidance from Explormy's professional analysts.</p>
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <div class="footer">
-                    <p>&copy; 2025 Explormee - Professional Career Analysis Services. All rights reserved.</p>
-                    <p>This confidential career analysis report is prepared exclusively for <span
-                            name="r_client_name">our client</span></p>
-                </div>
+            <!-- Current Job Compatibility -->
+            <div class="analysis-card">
+              <h4>Current Job Compatibility</h4>
+              <div class="detail_label_title">
+                <span>Currently Pursuing:</span>
+                <span id="r_current_job_title">Not provided</span>
+              </div>
+              <p id="r_current_job_compatibility">
+                No analysis provided. Please complete the assessment form for
+                detailed insights.
+              </p>
             </div>
+
+            <!-- Government Job Suitability -->
+            <div class="analysis-card">
+              <h4>Government Job Suitability</h4>
+              <div class="detail_label_title">
+                <span>Government Job Suitability Level: </span>
+                <span id="r_gov_job_suitability_level">Not provided</span>
+              </div>
+              <p id="r_gov_job_analysis">
+                No analysis provided. Please complete the assessment form for
+                detailed insights.
+              </p>
+            </div>
+
+            <!-- Business & Entrepreneurship Potential -->
+            <div class="analysis-card">
+              <h4>Business & Entrepreneurship Potential</h4>
+              <div class="detail_label_title">
+                <span>Business Viability Level: </span>
+                <span id="r_business_suitability_level">Not provided</span>
+              </div>
+              <p id="r_business_analysis">
+                No analysis provided. Please complete the assessment form for
+                detailed insights.
+              </p>
+            </div>
+          </div>
+
+          <!-- Section 5: Professional Recommendations -->
+          <div class="report-section">
+            <h2 class="report-section-title">
+              5. Overall Recommendation for <span name="r_client_name"></span>
+            </h2>
+
+            <div class="analysis-card">
+              <h4>Expert Career Guidance</h4>
+              <p id="r_overall_recommendation">
+                Complete your assessment to receive personalized career guidance
+                from Explormy's professional analysts.
+              </p>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="footer">
+            <p>
+              &copy; 2025 Explormee - Professional Career Analysis Services. All
+              rights reserved.
+            </p>
+            <p>
+              This confidential career analysis report is prepared exclusively
+              for <span name="r_client_name">our client</span>
+            </p>
+          </div>
         </div>
+      </div>
     </div>
 
-    <script src="career_tool_new.js"> </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("downloadHtml").addEventListener("click", async () => {
-                const previewArea = document.querySelector("#reportRoot"); // use reportRoot instead of preview-area
-
-                // 1️⃣ Grab all CSS from current page
-                const styles = Array.from(document.styleSheets)
-                    .map(ss => {
-                        try {
-                            return Array.from(ss.cssRules).map(rule => rule.cssText).join('');
-                        } catch {
-                            return '';
-                        }
-                    })
-                    .join('');
-
-                // 2️⃣ Clone preview and inline images as base64
-                const clone = previewArea.cloneNode(true);
-                const images = clone.querySelectorAll("img");
-                for (const img of images) {
-                    try {
-                        const dataUrl = await toCompressedDataURL(img.src, 0.7); // 70% quality
-                        img.src = dataUrl;
-                    } catch (e) {
-                        console.warn("Could not inline image", img.src, e);
-                    }
-                }
-
-                // 3️⃣ Build full HTML content
-                const htmlContent = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Career Analysis Report</title>
-        <style>
-        ${styles}
-        /* Optional print button style */
-        #printBtn {
-          display:inline-block;
-          padding:10px 15px;
-          margin:10px 0;
-          background:teal;
-          color:#fff;
-          border:none;
-          cursor:pointer;
-          font-size:16px;
-        }
-        </style>
-      </head>
-      <body>
-        <button id="printBtn" onclick="window.print()">Print Report</button>
-        ${clone.outerHTML}
-      </body>
-      </html>
-    `;
-
-                // 4️⃣ Download the HTML file
-                const blob = new Blob([htmlContent], { type: "text/html" });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-
-                const filename = (document.getElementById("r_user_name")?.textContent.trim().replace(/\s+/g, '_').toLowerCase())
-                    || "career_analysis_report";
-
-                a.href = url;
-                a.download = `${filename}_career_report.html`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            });
-
-            // Helper: Convert image URL to compressed base64
-            async function toCompressedDataURL(url, quality = 0.7) {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.crossOrigin = "anonymous";
-                    img.onload = function () {
-                        const canvas = document.createElement("canvas");
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        const ctx = canvas.getContext("2d");
-                        ctx.drawImage(img, 0, 0);
-                        const dataUrl = canvas.toDataURL("image/jpeg", quality);
-                        resolve(dataUrl);
-                    };
-                    img.onerror = reject;
-                    img.src = url;
-                });
-            }
-        });
-    </script>
-
-
-
-</body>
-
+    <script src="career_tool_new.js"></script>
+  </body>
 </html>
